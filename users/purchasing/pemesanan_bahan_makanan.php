@@ -33,10 +33,12 @@
                         <?php
                         echo "<p><font color='red'>Form pemesanan/pembelian bahan makanan masih dalam proses pembuatan</font></p>";
                     }else{
-                    ?>
-                        <a href="index.php?menu=pemesanan&form=true" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Pemesanan</a>
+                        if(empty($_GET['faktur'])){
+                            ?>
+                            <a href="index.php?menu=pemesanan&form=true" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Pemesanan</a>
+                            <?php
+                        }
 
-                        <?php
                         if (isset($_GET['faktur'])) { ?>
 
                           <div class="well">
