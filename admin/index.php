@@ -1,4 +1,4 @@
-<?php 
+<?php
 // route untuk manage user karyawan
 
 session_start();
@@ -35,20 +35,20 @@ switch ($divisi) {
 
 				case 'menu':
 					include_once '../users/banquet-manager/menu.php';
-					break;	
-				
+					break;
+
 				case 'resep':
 					include_once '../users/banquet-manager/resep.php';
 					break;
-				
+
 				case 'peramalan':
 					include_once '../users/banquet-manager/peramalan.php';
 					break;
 
 				case 'permintaan-menu':
 					include_once '../users/banquet-manager/permintaan_menu.php';
-					break;	
-				
+					break;
+
 				case 'profil':
 					include_once '../users/general-pages/profil.php';
 					break;
@@ -58,7 +58,7 @@ switch ($divisi) {
 					break;
 			}
 		break;
-	
+
 	case 'purchasing':
 			include_once '../users/purchasing/_sidebar.php';
 			// load content
@@ -73,8 +73,8 @@ switch ($divisi) {
 
 				case 'pemesanan':
 					include_once '../users/purchasing/pemesanan_bahan_makanan.php';
-					break;		
-				
+					break;
+
 				case 'profil':
 					include_once '../users/general-pages/profil.php';
 					break;
@@ -95,16 +95,16 @@ switch ($divisi) {
 
 				case 'pemesanan-bahan':
 					include_once '../users/staff-gudang/pemesanan_bahan.php';
-					break;	
-				
+					break;
+
 				case 'persediaan':
 					include_once '../users/staff-gudang/persediaan.php';
 					break;
-				
+
 				case 'permintaan-kebutuhan-bahan-makanan':
 					include_once '../users/staff-gudang/permintaan_kebutuhan_bahan_makanan.php';
 					break;
-				
+
 				case 'profil':
 					include_once '../users/general-pages/profil.php';
 					break;
@@ -113,8 +113,8 @@ switch ($divisi) {
 					include_once '../users/staff-gudang/beranda.php';
 					break;
 			}
-		break;				
-	
+		break;
+
 	case 'marketing':
 			include_once '../users/marketing/_sidebar.php';
 			// load content
@@ -141,6 +141,10 @@ switch ($divisi) {
 			include_once '../users/general-manager/_sidebar.php';
 			// load content
 			switch ($menu) {
+				case 'pengguna':
+					include_once '../users/general-manager/pengguna.php';
+					break;
+
 				case 'peramalan':
 					include_once '../users/general-manager/peramalan.php';
 					break;
@@ -148,13 +152,13 @@ switch ($divisi) {
 				case 'profil':
 					include_once '../users/general-pages/profil.php';
 					break;
-					
+
 				default:
 					include_once '../users/general-manager/beranda.php';
 					break;
 			}
-		break;		
-			
+		break;
+
 	default:
 			include_once '../users/general-pages/login_karyawan.php';
 		break;
