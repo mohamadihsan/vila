@@ -27,10 +27,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['id_karyawan']        = $row['id_karyawan'];
     $sub_array['status_pembelian']  = $row['status_pembelian'];
     $sub_array['tanggal_pembelian'] = $row['tanggal_pembelian'];
-	$sub_array['action']	        = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil_detail" onclick="return detail(\''.$row['nomor_faktur'].'\')"><i class="ace-icon fa fa-file-text-o bigger-120"></i> Detail</button>
-                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['nomor_faktur'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';  
-    $sub_array['action_diterima']    = ' <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#terima" onclick="return terima(\''.$row['nomor_faktur'].'\')"><i class="ace-icon fa fa-check-square bigger-120"></i> Terima</button>';   
-    
+	$sub_array['action']	        = ' <a href="./index.php?menu=pemesanan&faktur='.$row['nomor_faktur'].'" class="btn btn-warning btn-xs"><i class="ace-icon fa fa-file-text-o bigger-120"></i> Detail</a>
+                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['nomor_faktur'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
+    $sub_array['action_diterima']    = ' <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#terima" onclick="return terima(\''.$row['nomor_faktur'].'\')"><i class="ace-icon fa fa-check-square bigger-120"></i> Terima</button>';
+
     // ubah tampilan data
     if ($sub_array['status_pembelian'] == 'SP') {
         $sub_array['status_pembelian'] = '<span class="label label-info label-white middle">
@@ -42,7 +42,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                                 barang sudah diterima
                                             </span>';
     }
-    
+
     $data[] = $sub_array;
 }
 
