@@ -1,7 +1,7 @@
 <?php
 $server         = '127.0.0.1';
 $username       = 'root';
-$password       = '0000';
+$password       = '';
 $nama_database  = 'vila';
 
 $conn = mysqli_connect($server, $username, $password, $nama_database);
