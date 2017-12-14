@@ -11,10 +11,10 @@
         </div>
 
         <div class="page-content">
-            
+
             <div class="page-header">
                 <h1>
-                    Bahan Makanan 
+                    Bahan Makanan
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -27,11 +27,11 @@
                     <!-- PAGE CONTENT BEGINS -->
 
                     <button data-toggle="collapse" data-target=".tampil" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Form</button>
-                    
+
                     <div id="" class="collapse tampil">
                         <div class="well">
                             <form action="../action/bahan_makanan.php" method="post" class="myform">
-                                
+
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
 
@@ -47,7 +47,27 @@
                                     </tr>
                                     <tr>
                                         <td width="15%">Satuan</td>
-                                        <td><input type="text" name="satuan" value="" class="form-control" placeholder="Misal: kilogram" required></td>
+                                        <td>
+                                            <select name="satuan" class="form-control">
+                                                <option value="bks">bks</option>
+                                                <option value="botol">botol</option>
+                                                <option value="btl">btl</option>
+                                                <option value="bt">bt</option>
+                                                <option value="can">can</option>
+                                                <option value="dus">dus</option>
+                                                <option value="ekor">ekor</option>
+                                                <option value="gln">gln</option>
+                                                <option value="kg">kg</option>
+                                                <option value="lbr">lbr</option>
+                                                <option value="lkt">lkt</option>
+                                                <option value="pax">pax</option>
+                                                <option value="pcs">pcs</option>
+                                                <option value="psg">psg</option>
+                                                <option value="ptg">ptg</option>
+                                                <option value="roll">roll</option>
+                                                <option value="tbg">tbg</option>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Kategori</td>
@@ -68,10 +88,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </form>    
+                            </form>
                         </div>
                     </div>
-                    
+
                     <!-- loading -->
                     <center><div id="loading"></div></center>
                     <div id="result"></div>
@@ -123,24 +143,24 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
                 </div>
-            </form>    
+            </form>
         </div>
     </div>
 </div>
-            
+
 <script>
     function ubah(id_bahan_makanan, nama_bahan_makanan, satuan, kategori){
         $('.well input[name=id_bahan_makanan]').val(id_bahan_makanan);
         $('.well input[name=nama_bahan_makanan]').val(nama_bahan_makanan);
-        $('.well input[name=satuan]').val(satuan);
+        $('.well select[name=satuan]').val(satuan);
         $('.well select[name=kategori]').val(kategori);
     }
 
     function hapus(id_bahan_makanan){
         $('.modal-body input[name=id_bahan_makanan]').val(id_bahan_makanan);
     }
-    
-    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+
+    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
     $(document).ready(function(){
 
         $('#mytable').DataTable({
@@ -168,19 +188,19 @@
         //Callback handler for form submit event
         $(".myform").submit(function(e)
         {
-      
+
         var formObj = $(this);
         var formURL = formObj.attr("action");
         var formData = new FormData(this);
         $.ajax({
             url: formURL,
             type: 'POST',
-            data:  formData,        
+            data:  formData,
             contentType: false,
             cache: false,
             processData:false,
             beforeSend: function (){
-                       $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");                   
+                       $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
                        },
             success: function(data, textStatus, jqXHR){
                     $("#result").html(data);
@@ -189,14 +209,11 @@
                     $('#mytable').DataTable().ajax.reload();
             },
                 error: function(jqXHR, textStatus, errorThrown){
-         }         
+         }
         });
             e.preventDefault(); //Prevent Default action.
             e.unbind();
-        });    
+        });
 
     });
 </script>
-
-
-
