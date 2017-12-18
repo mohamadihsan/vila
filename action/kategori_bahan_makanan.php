@@ -3,47 +3,44 @@
 require_once '../config/connection.php';
 include_once 'generate_kode.php';
 
-$id_bahan_makanan      = strtoupper(mysqli_escape_string($conn, trim($_POST['id_bahan_makanan'])));
+$id_kategori      = strtoupper(mysqli_escape_string($conn, trim($_POST['id_kategori'])));
 if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
-    $nama_bahan_makanan     = strtolower(mysqli_escape_string($conn, trim($_POST['nama_bahan_makanan'])));
-    $satuan                 = strtolower(mysqli_escape_string($conn, trim($_POST['satuan'])));
-    $id_kategori               = strtolower(mysqli_escape_string($conn, trim($_POST['id_kategori'])));
-    $tanggal_kadaluarsa               = strtolower(mysqli_escape_string($conn, trim($_POST['tanggal_kadaluarsa'])));
+    $nama_kategori    = mysqli_escape_string($conn, trim($_POST['nama_kategori']));
 }
 
-if ($id_bahan_makanan=='') {
+if ($id_kategori=='') {
     // init kode terkahir
-    $init = 'BRG';
+    $init = 'K';
 
     // retrieve ID terakhir yg tersimpan
-    $sql = "SELECT id_bahan_makanan
-            FROM bahan_makanan
-            ORDER BY id_bahan_makanan DESC
+    $sql = "SELECT id_kategori
+            FROM kategori_bahan_makanan
+            ORDER BY id_kategori DESC
             LIMIT 1";
     $result = mysqli_query($conn, $sql);
     if(mysqli_num_rows($result) > 0){
         $data = mysqli_fetch_assoc($result);
-        $id_terakhir_tersimpan = $data['id_bahan_makanan'];
+        $id_terakhir_tersimpan = $data['id_kategori'];
     }else{
-        $id_terakhir_tersimpan = $init.'-000';
+        $id_terakhir_tersimpan = '000'.$init;
     }
 
     // panggil fungsi generate kode
-    $id_bahan_makanan = buat_kode($id_terakhir_tersimpan, $init);
+    $id_kategori = buat_kode_kategori($id_terakhir_tersimpan, $init);
 
     // simpan data
-    $sql = "INSERT INTO bahan_makanan (id_bahan_makanan, nama_bahan_makanan, satuan, id_kategori, tanggal_kadaluarsa)
-            VALUES ('$id_bahan_makanan', '$nama_bahan_makanan', '$satuan', '$id_kategori', '$tanggal_kadaluarsa')";
+    $sql = "INSERT INTO kategori_bahan_makanan (id_kategori, nama_kategori)
+            VALUES ('$id_kategori', '$nama_kategori')";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil disimpan";
     }else{
         $pesan_gagal = "Data gagal disimpan";
     }
-}else if($id_bahan_makanan!='' AND empty(mysqli_escape_string($conn, trim($_POST['hapus'])))){
+}else if($id_kategori!='' AND empty(mysqli_escape_string($conn, trim($_POST['hapus'])))){
     // perbaharui data
-    $sql = "UPDATE bahan_makanan
-            SET nama_bahan_makanan='$nama_bahan_makanan', satuan='$satuan', id_kategori='$id_kategori', tanggal_kadaluarsa='$tanggal_kadaluarsa'
-            WHERE id_bahan_makanan='$id_bahan_makanan'";
+    $sql = "UPDATE kategori_bahan_makanan
+            SET nama_kategori='$nama_kategori'
+            WHERE id_kategori='$id_kategori'";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil diperbaharui";
     }else{
@@ -51,8 +48,8 @@ if ($id_bahan_makanan=='') {
     }
 }else if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
     // hapus data
-    $sql = "DELETE FROM bahan_makanan
-            WHERE id_bahan_makanan='$id_bahan_makanan'";
+    $sql = "DELETE FROM kategori_bahan_makanan
+            WHERE id_kategori='$id_kategori'";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil dihapus";
     }else{

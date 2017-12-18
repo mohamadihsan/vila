@@ -93,6 +93,10 @@ switch ($divisi) {
 					include_once '../users/staff-gudang/bahan_makanan.php';
 					break;
 
+				case 'kategori':
+					include_once '../users/staff-gudang/kategori_bahan_makanan.php';
+					break;
+
 				case 'pemesanan-bahan':
 					include_once '../users/staff-gudang/pemesanan_bahan.php';
 					break;

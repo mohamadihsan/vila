@@ -11,10 +11,10 @@
         </div>
 
         <div class="page-content">
-            
+
             <div class="page-header">
                 <h1>
-                    Bahan Makanan 
+                    Bahan Makanan
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
-                    
+
                     <div class="clearfix">
                         <div class="pull-right tableTools-container"></div>
                     </div>
@@ -41,9 +41,10 @@
                                 <tr class="">
                                     <th width="7%" class="text-center">No</th>
                                     <th width="15%" class="text-left">ID</th>
-                                    <th width="30%" class="text-left">Nama</th>
+                                    <th width="20%" class="text-left">Nama</th>
                                     <th width="10%" class="text-left">Satuan</th>
                                     <th width="10%" class="text-center">Kategori</th>
+                                    <th width="10%" class="text-center">Expire</th>
                                 </tr>
                             </thead>
                         </table>
@@ -72,24 +73,25 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
                 </div>
-            </form>    
+            </form>
         </div>
     </div>
 </div>
-            
+
 <script>
-    function ubah(id_bahan_makanan, nama_bahan_makanan, satuan, kategori){
+    function ubah(id_bahan_makanan, nama_bahan_makanan, satuan, id_kategori, tanggal_kadaluarsa){
         $('.well input[name=id_bahan_makanan]').val(id_bahan_makanan);
         $('.well input[name=nama_bahan_makanan]').val(nama_bahan_makanan);
-        $('.well input[name=satuan]').val(satuan);
-        $('.well input[name=kategori]').val(kategori);
+        $('.well select[name=satuan]').val(satuan);
+        $('.well select[name=id_kategori]').val(id_kategori);
+        $('.well select[name=tanggal_kadaluarsa]').val(tanggal_kadaluarsa);
     }
 
     function hapus(id_bahan_makanan){
         $('.modal-body input[name=id_bahan_makanan]').val(id_bahan_makanan);
     }
-    
-    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+
+    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
     $(document).ready(function(){
 
         $('#mytable').DataTable({
@@ -105,7 +107,7 @@
                             { mData: 'id_bahan_makanan' } ,
                             { mData: 'nama_bahan_makanan' } ,
                             { mData: 'satuan' },
-                            { mData: 'kategori' }
+                            { mData: 'id_kategori' }
                     ],
                     "aoColumnDefs": [
                         { sClass: "dt-center", "aTargets": [0,3,4] },
@@ -115,6 +117,3 @@
 
     });
 </script>
-
-
-

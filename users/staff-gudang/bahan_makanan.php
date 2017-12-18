@@ -72,11 +72,28 @@
                                     <tr>
                                         <td width="15%">Kategori</td>
                                         <td>
-                                            <select name="kategori" class="form-control">
-                                                <option value="cepat busuk">cepat busuk</option>
-                                                <option value="basah awet">basah awet</option>
-                                                <option value="kering">kering</option>
+                                            <select name="id_kategori" class="form-control">
+                                                <?php
+                                                // retrieve data dari API
+                                                $file = file_get_contents($url_api."tampilkan_data_kategori_bahan_makanan.php");
+                                                $json = json_decode($file, true);
+                                                $i=0;
+                                                while ($i < count($json['data'])) {
+                                                    $id_kategori[$i] = $json['data'][$i]['id_kategori'];
+                                                    $nama_kategori[$i] = $json['data'][$i]['id_kategori'].' - '.$json['data'][$i]['nama_kategori'];
+                                                    ?>
+                                                    <option value="<?= $id_kategori[$i] ?>"> <?= $nama_kategori[$i] ?></option>
+                                                    <?php
+                                                    $i++;
+                                                }
+                                                ?>
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Tanggal Kadaluarsa</td>
+                                        <td>
+                                            <input type="date" name="tanggal_kadaluarsa" class="form-control" value="">
                                         </td>
                                     </tr>
                                     <tr>
@@ -111,9 +128,10 @@
                                 <tr class="">
                                     <th width="7%" class="text-center">No</th>
                                     <th width="15%" class="text-left">ID</th>
-                                    <th width="30%" class="text-left">Nama</th>
+                                    <th width="20%" class="text-left">Nama</th>
                                     <th width="15%" class="text-left">Satuan</th>
                                     <th width="15%" class="text-center">Kategori</th>
+                                    <th width="15%" class="text-center">Expire</th>
                                     <th width="20%" class="text-center"></th>
                                 </tr>
                             </thead>
@@ -149,11 +167,12 @@
 </div>
 
 <script>
-    function ubah(id_bahan_makanan, nama_bahan_makanan, satuan, kategori){
+    function ubah(id_bahan_makanan, nama_bahan_makanan, satuan, id_kategori, tanggal_kadaluarsa){
         $('.well input[name=id_bahan_makanan]').val(id_bahan_makanan);
         $('.well input[name=nama_bahan_makanan]').val(nama_bahan_makanan);
         $('.well select[name=satuan]').val(satuan);
-        $('.well select[name=kategori]').val(kategori);
+        $('.well select[name=id_kategori]').val(id_kategori);
+        $('.well input[name=tanggal_kadaluarsa]').val(tanggal_kadaluarsa);
     }
 
     function hapus(id_bahan_makanan){
@@ -176,7 +195,8 @@
                             { mData: 'id_bahan_makanan' } ,
                             { mData: 'nama_bahan_makanan' } ,
                             { mData: 'satuan' },
-                            { mData: 'kategori' },
+                            { mData: 'id_kategori' },
+                            { mData: 'tanggal_kadaluarsa' },
                             { mData: 'action'}
                     ],
                     "aoColumnDefs": [
