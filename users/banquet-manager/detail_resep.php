@@ -39,22 +39,7 @@
                                     <tr>
                                         <td width="15%">Menu</td>
                                         <td>
-                                            <select name="id_menu" class="form-control select2" required>
-                                                <?php
-                                                // retrieve data dari API
-                                                $file = file_get_contents($url_api."tampilkan_data_menu.php");
-                                                $json = json_decode($file, true);
-                                                $i=0;
-                                                while ($i < count($json['data'])) {
-                                                    $id_menu[$i] = $json['data'][$i]['id_menu'];
-                                                    $nama_menu[$i] = $json['data'][$i]['id_menu'].' - '.$json['data'][$i]['nama_menu'];
-                                                    ?>
-                                                    <option value="<?= $id_menu[$i] ?>"> <?= $nama_menu[$i] ?></option>
-                                                    <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                            </select>
+                                            <input type="text" name="id_menu" value="<?php if(isset($_GET['id'])) echo $_GET['id'] ?>" class="form-control" required readonly>
                                         </td>
                                     </tr>
                                     <tr>
@@ -106,7 +91,7 @@
                                                 <tr class="">
                                                     <th width="20%" class="text-left">ID Bahan</th>
                                                     <th width="20%" class="text-left">Takaran</th>
-                                                    <th width="30%" class="text-left">Satuan</th>
+                                                    <th width="20%" class="text-left">Satuan</th>
                                                     <th width="10%" class="text-left"></th>
                                                 </tr>
                                             </thead>

@@ -21,8 +21,13 @@ if($id_bahan_makanan == ''){
         $id_bahan_makanan[$i] = $_SESSION['id_bahan_makanan'][$i];
         $sql = "SELECT satuan, nama_bahan_makanan FROM bahan_makanan WHERE id_bahan_makanan='$id_bahan_makanan[$i]'";
         $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
-        $satuan[$i] = $row['satuan'];
+        if (mysqli_num_rows($result)>0) {
+            $row = mysqli_fetch_assoc($result);
+            $satuan[$i] = $row['satuan'];
+        }else{
+            $satuan[$i] = '';
+        }
+
         $nama_bahan_makanan[$i] = $row['nama_bahan_makanan'];
 
         $sub_array['satuan']                    = $satuan[$i];
