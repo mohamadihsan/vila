@@ -26,7 +26,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['harga']         = Rupiah($row['harga']);
     $sub_array['gambar_menu'] = '<img src="../assets/images/'.$row['gambar_menu'].'" alt="menu" class="img-responsive" width="80px" height="80px" >';
     $sub_array['nama_file_gambar'] = $row['gambar_menu'];
-	$sub_array['action']	    = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_menu'].'\',\''.$row['nama_menu'].'\',\''.$row['harga'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
+	$sub_array['action']	    = ' <a class="btn btn-success btn-xs" href="./index.php?id='.$row['id_menu'].'&menu=detail_resep"><i class="ace-icon fa fa-file-text-o bigger-120"></i> Resep</a>
+                                    <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_menu'].'\',\''.$row['nama_menu'].'\',\''.$row['harga'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_menu'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
     $sub_array['resep']	    = ' <a class="btn btn-success btn-xs" href="./index.php?id='.$row['id_menu'].'&menu=detail_resep"><i class="ace-icon fa fa-file-text-o bigger-120"></i> Resep</a>
                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus_resep(\''.$row['id_menu'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';

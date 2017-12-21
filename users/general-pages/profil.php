@@ -81,7 +81,7 @@
 
             <div class="page-header">
                 <h1>
-                    User Profile 
+                    User Profile
                     <!--<small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         3 styles with inline editable feature
@@ -101,7 +101,7 @@
                             <div class="col-xs-12 col-sm-3 center">
                                 <div>
                                     <span class="profile-picture">
-                                        <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="../assets/images/avatars/profile-pic.jpg" />
+                                        <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="../assets/images/user2.png" />
                                     </span>
 
                                     <div class="space-4"></div>
@@ -117,7 +117,7 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-9">
-                                
+
                                 <div class="space-12"></div>
 
                                 <div class="profile-user-info profile-user-info-striped">
@@ -158,7 +158,7 @@
 
                                         <div class="profile-info-value">
                                             <span class="editable" id="about"></span></span>
-                                            <form method="post" action=""> 
+                                            <form method="post" action="">
                                                 <input type="password" name="kata_sandi_lama" value="" placeholder="Kata Sandi Lama" require>
                                                 <input type="password" name="kata_sandi_baru" value="" placeholder="Kata Sandi Baru" require>
                                                 <input type="submit" class="btn btn-sm btn-primary" name="" value="Update">
@@ -179,8 +179,8 @@
 <script>
     $(document).ready(function(){
 
-        $.ajax({ type: "GET",   
-            url: "../action/tampilkan_data_pengguna.php?id=<?= $_SESSION['id_karyawan'] ?>",   
+        $.ajax({ type: "GET",
+            url: "../action/tampilkan_data_pengguna.php?id=<?= $_SESSION['id_karyawan'] ?>",
             async: false,
             datatype: "json",
             success : function(data)

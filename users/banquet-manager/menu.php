@@ -183,8 +183,7 @@
                                     <th width="10%" class="text-left">ID</th>
                                     <th width="25%" class="text-left">Nama</th>
                                     <th width="10%" class="text-left">Harga</th>
-                                    <th width="12%" class="text-left">Menu</th>
-                                    <th width="12%" class="text-left">Resep</th>
+                                    <th width="15%" class="text-left">Menu</th>
                                 </tr>
                             </thead>
                         </table>
@@ -272,8 +271,7 @@
                             { mData: 'id_menu' } ,
                             { mData: 'nama_menu' } ,
                             { mData: 'harga' },
-                            { mData: 'action'},
-                            { mData: 'resep'},
+                            { mData: 'action'}
                     ],
                     "aoColumnDefs": [
                         { sClass: "dt-center", "aTargets": [0,3,4,5] },

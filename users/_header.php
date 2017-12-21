@@ -81,7 +81,7 @@
 
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-						
+
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="../assets/images/user.png" alt="User" />
@@ -94,7 +94,7 @@
 							</a>
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								
+
 								<li>
 									<a href="./index.php?menu=profil">
 										<i class="ace-icon fa fa-user"></i>
