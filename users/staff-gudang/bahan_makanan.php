@@ -38,16 +38,41 @@
                                 <table class="table table-renponsive">
                                     <caption>Masukkan Data Bahan Makanan:</caption>
                                     <tr>
+                                        <td width="15%">Kategori</td>
+                                        <td>
+                                            <div class="form-group">
+                                            <select name="id_kategori" class="form-control">
+                                                <?php
+                                                // retrieve data dari API
+                                                $file = file_get_contents($url_api."tampilkan_data_kategori_bahan_makanan.php");
+                                                $json = json_decode($file, true);
+                                                $i=0;
+                                                while ($i < count($json['data'])) {
+                                                    $id_kategori[$i] = $json['data'][$i]['id_kategori'];
+                                                    $nama_kategori[$i] = $json['data'][$i]['id_kategori'].' - '.$json['data'][$i]['nama_kategori'];
+                                                    ?>
+                                                    <option value="<?= $id_kategori[$i] ?>"> <?= $nama_kategori[$i] ?></option>
+                                                    <?php
+                                                    $i++;
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="index.php?menu=kategori" class="btn btn-xs" title="tambah kategori"><i class="fa fa-plus"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td width="15%">ID Bahan Makanan</td>
-                                        <td><input type="text" name="id_bahan_makanan" value="" class="form-control" placeholder="ID akan dibuat secara otomatis" readonly></td>
+                                        <td colspan="2"><input type="text" name="id_bahan_makanan" value="" class="form-control" placeholder="ID akan dibuat secara otomatis" readonly></td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Nama Bahan Makanan</td>
-                                        <td><input type="text" name="nama_bahan_makanan" value="" class="form-control" placeholder="Misal: Tepung" required></td>
+                                        <td colspan="2"><input type="text" name="nama_bahan_makanan" value="" class="form-control" placeholder="Misal: Tepung" required></td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Satuan</td>
-                                        <td>
+                                        <td colspan="2">
                                             <select name="satuan" class="form-control">
                                                 <option value="bks">bks</option>
                                                 <option value="botol">botol</option>
@@ -70,34 +95,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="15%">Kategori</td>
-                                        <td>
-                                            <select name="id_kategori" class="form-control">
-                                                <?php
-                                                // retrieve data dari API
-                                                $file = file_get_contents($url_api."tampilkan_data_kategori_bahan_makanan.php");
-                                                $json = json_decode($file, true);
-                                                $i=0;
-                                                while ($i < count($json['data'])) {
-                                                    $id_kategori[$i] = $json['data'][$i]['id_kategori'];
-                                                    $nama_kategori[$i] = $json['data'][$i]['id_kategori'].' - '.$json['data'][$i]['nama_kategori'];
-                                                    ?>
-                                                    <option value="<?= $id_kategori[$i] ?>"> <?= $nama_kategori[$i] ?></option>
-                                                    <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td width="15%">Tanggal Kadaluarsa</td>
-                                        <td>
+                                        <td colspan="2">
                                             <input type="date" name="tanggal_kadaluarsa" class="form-control" value="">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <div class="btn-group">
                                                 <button type="submit" class="btn btn-sm btn-primary"><i class="ace-icon fa fa-save bigger-120"></i> Simpan</button>
                                                 <button type="reset" class="btn btn-sm btn-default"><i class="ace-icon fa fa-refresh bigger-120"></i> Reset</button>

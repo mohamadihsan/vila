@@ -78,7 +78,7 @@
                                     <th width="7%" class="text-center">No</th>
                                     <th width="15%" class="text-left">ID Kategori</th>
                                     <th width="30%" class="text-left">Nama Kategori</th>
-                                    <th width="20%" class="text-center"></th>
+                                    <th width="14%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
