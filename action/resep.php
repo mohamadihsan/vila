@@ -6,30 +6,39 @@ require_once '../config/connection.php';
 
 if(mysqli_escape_string($conn, trim($_POST['status']))=='0'){
     // buat session
-    for ($i=0; $i < count($_POST['id_bahan_makanan']); $i++) { 
+    for ($i=0; $i < count($_POST['id_bahan_makanan']); $i++) {
         $_SESSION['id_bahan_makanan'][$i] = $_POST['id_bahan_makanan'][$i];
     }
-    
+
     $_SESSION['id_menu'] = $_POST['id_menu'];
-    
+
 }else if(mysqli_escape_string($conn, trim($_POST['status']))=='1'){
-    
+
 
     // simpan data
-    for ($i=0; $i < count($_POST['id_bahan_makanan']); $i++) { 
+    for ($i=0; $i < count($_POST['id_bahan_makanan']); $i++) {
         $id_menu      = $_POST['id_menu'];
         $id_bahan_makanan[$i]  = $_POST['id_bahan_makanan'][$i];
         $takaran[$i]        = $_POST['takaran'][$i];
-        
-        $sql = "INSERT INTO resep (id_menu, id_bahan_makanan, takaran)
-                VALUES ('$id_menu', '$id_bahan_makanan[$i]', '$takaran[$i]')";
+        $satuan[$i]        = $_POST['satuan'][$i];
+
+        $sql = "INSERT INTO resep (id_menu, id_bahan_makanan, satuan, takaran)
+                VALUES ('$id_menu', '$id_bahan_makanan[$i]', '$satuan[$i]', '$takaran[$i]')";
         if(mysqli_query($conn, $sql)){
             $pesan_berhasil = "Data berhasil disimpan";
         }else{
             $pesan_gagal = "Data gagal disimpan";
-        }        
+        }
     }
-}   
+}else{
+    $id_menu = mysqli_escape_string($conn, trim($_POST['id_menu']));
+    $sql = "DELETE FROM resep WHERE id_menu='$id_menu'";
+    if(mysqli_query($conn, $sql)){
+        $pesan_berhasil = "Data berhasil dihapus";
+    }else{
+        $pesan_gagal = "Data gagal dihapus";
+    }
+}
 
 if (isset($pesan_berhasil)) {
     ?>

@@ -11,10 +11,10 @@
     </div>
 
     <div class="page-content">
-        
+
         <div class="page-header">
             <h1>
-                Resep 
+                Resep
                 <small>
                     <i class="ace-icon fa fa-angle-double-right"></i>
                     Pengolahan Data
@@ -27,19 +27,11 @@
                 <!-- PAGE CONTENT BEGINS -->
 
                 <button data-toggle="collapse" data-target=".tampil" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Form</button>
-                
-                <div id="" class="collapse tampil_resep">
-                    <div class="well">
-                    Resep
-                    <button data-toggle="collapse" data-target=".tampil_resep" class="btn btn-sm"><i class="ace-icon fa fa-close bigger-110"></i> Tutup</button>
-                
-                    </div>
-                </div>
 
                 <div id="" class="collapse tampil">
                     <div class="well">
                         <form action="../action/resep.php" method="post" class="myform">
-                            
+
                             <!-- hidden status -->
                             <input type="hidden" name="status" value="0" class="form-control" placeholder="" readonly>
 
@@ -96,8 +88,8 @@
                                     </td>
                                 </tr>
                             </table>
-                        </form> 
-                        
+                        </form>
+
                         <div class="collapse" id="selanjutnya">
                             <form action="../action/resep.php" method="post" class="myform2">
 
@@ -133,11 +125,11 @@
 
                     </div>
                 </div>
-                
+
                 <!-- loading -->
                 <center><div id="loading"></div></center>
                 <div id="result"></div>
-                
+
                 <div id="tablemenu">
                     <div class="clearfix">
                         <div class="pull-right tableTools-container"></div>
@@ -171,26 +163,26 @@
 
 <!-- Modal Hapus -->
 <div class="modal fade" id="hapus" role="dialog">
-<div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header bg-primary">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
+            </div>
+            <form method="post" action="../action/resep.php" class="myform">
+                <div class="modal-body">
+                    <input type="hidden" name="hapus" value="1" readonly>
+                    <input type="hidden" name="id_menu" readonly>
+                    <p>Apakah anda akan menghapus data resep ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                </div>
+            </form>
         </div>
-        <form method="post" action="../action/resep.php" class="myform">
-            <div class="modal-body">
-                <input type="hidden" name="hapus" value="1" readonly>
-                <input type="hidden" name="id_menu" readonly>
-                <p>Apakah anda akan menghapus data resep ini?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
-            </div>
-        </form>    
     </div>
 </div>
-</div>
-        
+
 <script>
 function ubah(id_menu, id_bahan_makanan, takaran){
     $('.well input[name=id_menu]').val(id_menu);
@@ -199,14 +191,14 @@ function ubah(id_menu, id_bahan_makanan, takaran){
 }
 
 function tampil_resep(id_menu){
-    
+
 }
 
 function hapus(id_menu){
     $('.modal-body input[name=id_menu]').val(id_menu);
 }
 
-// LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+// LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
 $(document).ready(function(){
 
     $('#mytable').DataTable({
@@ -245,19 +237,19 @@ $(document).ready(function(){
     //Callback handler for form submit event
     $(".myform").submit(function(e)
     {
-  
+
     var formObj = $(this);
     var formURL = formObj.attr("action");
     var formData = new FormData(this);
     $.ajax({
         url: formURL,
         type: 'POST',
-        data:  formData,        
+        data:  formData,
         contentType: false,
         cache: false,
         processData:false,
         beforeSend: function (){
-                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");                   
+                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
                    },
         success: function(data, textStatus, jqXHR){
                 $("#result").html(data);
@@ -269,27 +261,27 @@ $(document).ready(function(){
                 $("#selanjutnya").collapse();
         },
             error: function(jqXHR, textStatus, errorThrown){
-        }         
+        }
     });
         e.preventDefault(); //Prevent Default action.
         e.unbind();
-    });    
+    });
 
     $(".myform2").submit(function(e)
     {
-  
+
     var formObj = $(this);
     var formURL = formObj.attr("action");
     var formData = new FormData(this);
     $.ajax({
         url: formURL,
         type: 'POST',
-        data:  formData,        
+        data:  formData,
         contentType: false,
         cache: false,
         processData:false,
         beforeSend: function (){
-                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");                   
+                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
                    },
         success: function(data, textStatus, jqXHR){
                 $("#result").html(data);
@@ -298,16 +290,11 @@ $(document).ready(function(){
                 $("#tablemenu").show();
         },
             error: function(jqXHR, textStatus, errorThrown){
-        }         
+        }
     });
         e.preventDefault(); //Prevent Default action.
         e.unbind();
-    });    
+    });
 
 });
 </script>
-
-
-
-
-

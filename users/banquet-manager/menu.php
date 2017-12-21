@@ -27,7 +27,6 @@
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="btn-group">
                         <button data-toggle="collapse" data-target=".tampil" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Form</button>
-                        <button data-toggle="collapse" data-target=".tampil_resep" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Resep</button>
                     </div>
                     <div id="" class="collapse tampil">
                         <div class="well">
@@ -60,104 +59,6 @@
                                     </tr>
                                 </table>
                             </form>
-                        </div>
-                    </div>
-
-                    <div id="" class="collapse tampil_resep">
-                        <div class="well">
-                            <form action="../action/resep.php" method="post" class="myform">
-
-                                <!-- hidden status -->
-                                <input type="hidden" name="status" value="0" class="form-control" placeholder="" readonly>
-
-                                <table class="table table-renponsive">
-                                    <caption>Masukkan Data Menu:</caption>
-                                    <tr>
-                                        <td width="15%">Menu</td>
-                                        <td>
-                                            <select name="id_menu" class="form-control select2" required>
-                                                <?php
-                                                // retrieve data dari API
-                                                $file = file_get_contents($url_api."tampilkan_data_menu.php");
-                                                $json = json_decode($file, true);
-                                                $i=0;
-                                                while ($i < count($json['data'])) {
-                                                    $id_menu[$i] = $json['data'][$i]['id_menu'];
-                                                    $nama_menu[$i] = $json['data'][$i]['id_menu'].' - '.$json['data'][$i]['nama_menu'];
-                                                    ?>
-                                                    <option value="<?= $id_menu[$i] ?>"> <?= $nama_menu[$i] ?></option>
-                                                    <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15%">Bahan yang digunakan</td>
-                                        <td>
-                                            <select name="id_bahan_makanan[]" class="form-control multiselect" multiple="" required>
-                                                <?php
-                                                // retrieve data dari API
-                                                $file = file_get_contents($url_api."tampilkan_data_bahan_makanan.php");
-                                                $json = json_decode($file, true);
-                                                $i=0;
-                                                while ($i < count($json['data'])) {
-                                                    $id_bahan_makanan[$i] = $json['data'][$i]['id_bahan_makanan'];
-                                                    $nama_bahan_makanan[$i] = $json['data'][$i]['id_bahan_makanan'].' - '.$json['data'][$i]['nama_bahan_makanan'];
-                                                    ?>
-                                                    <option value="<?= $id_bahan_makanan[$i] ?>"> <?= $nama_bahan_makanan[$i] ?></option>
-                                                    <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <div class="btn-group">
-                                                <button type="submit" class="btn btn-sm btn-inverse"><i class="ace-icon fa fa-arrow-right bigger-120"></i> Selanjutnya</button>
-                                                <button type="reset" class="btn btn-sm btn-default"><i class="ace-icon fa fa-refresh bigger-120"></i> Reset</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-
-                            <div class="collapse" id="selanjutnya">
-                                <form action="../action/resep.php" method="post" class="myform2">
-
-                                    <!-- hidden status -->
-                                    <input type="hidden" name="status" value="1" class="form-control" placeholder="" readonly>
-
-                                    <!-- tabel resep -->
-                                    <div class="table-header">
-                                        Bahan yang digunakan:
-                                    </div>
-                                    <div class="table table-responsive">
-                                        <table id="reseptable" class="display" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr class="">
-                                                    <th width="20%" class="text-left">ID Bahan</th>
-                                                    <th width="20%" class="text-left">Takaran</th>
-                                                    <th width="30%" class="text-left"></th>
-                                                    <th width="30%" class="text-left"></th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <button type="submit" class="btn btn-sm btn-primary"><i class="ace-icon fa fa-save bigger-120"></i> Simpan</button>
-                                                        <a href="../action/unset_session_resep.php" class="btn btn-sm btn-danger"><i class="ace-icon fa fa-close bigger-120"></i> Batalkan</a>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-
                         </div>
                     </div>
 
