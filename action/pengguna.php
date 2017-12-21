@@ -1,85 +1,46 @@
 <?php
+error_reporting(0);
 // buka koneksi
 require_once '../config/connection.php';
 include_once 'generate_kode.php';
 
-$id_pegawai      = strtoupper(mysqli_escape_string($conn, trim($_POST['id_pegawai'])));
+$id_karyawan      = strtoupper(mysqli_escape_string($conn, trim($_POST['id_karyawan'])));
 if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
-    $nama_pegawai       = ucwords(mysqli_escape_string($conn, trim($_POST['nama_pegawai'])));
-    $alamat             = strtolower(mysqli_escape_string($conn, trim($_POST['alamat'])));
-    $no_telp            = strtolower(mysqli_escape_string($conn, trim($_POST['no_telp'])));
-    $email              = strtolower(mysqli_escape_string($conn, trim($_POST['email'])));
-    $jabatan            = strtolower(mysqli_escape_string($conn, trim($_POST['jabatan'])));
-    $nama_pengguna      = strtolower(mysqli_escape_string($conn, trim($_POST['nama_pengguna'])));
+    $id_karyawan_lama = strtoupper(mysqli_escape_string($conn, trim($_POST['id_karyawan_lama'])));
+    $nama_karyawan       = ucwords(mysqli_escape_string($conn, trim($_POST['nama_karyawan'])));
+    $email              = mysqli_escape_string($conn, trim($_POST['email']));
+    $divisi            = strtolower(mysqli_escape_string($conn, trim($_POST['divisi'])));
+    $nama_pengguna      = mysqli_escape_string($conn, trim($_POST['nama_pengguna']));
     $kata_sandi         = md5(strtolower(mysqli_escape_string($conn, trim($_POST['kata_sandi']))));
 }
 
-if ($id_pegawai=='') {
-    // init kode terkahir
-    if ($jabatan == "pemilik") {
-        $init = 10;
-    }else if ($jabatan == "manager") {
-        $init = 20;
-    }else if ($jabatan == "kepala pemasaran") {
-        $init = 30;
-    }else if ($jabatan == "kepala administrasi") {
-        $init = 31;
-    }else if ($jabatan == "kepala produksi") {
-        $init = 32;
-    }else if ($jabatan == "kepala gudang dan pengadaan") {
-        $init = 33;
-    }else if ($jabatan == "staff keuangan") {
-        $init = 40;
-    }else if ($jabatan == "staff kepegawaian") {
-        $init = 41;
-    }else if ($jabatan == "staff gudang") {
-        $init = 42;
-    }
-    
-    $string = date('ym');
-
-    // retrieve ID terakhir yg tersimpan
-    $sql = "SELECT id_pegawai 
-            FROM pegawai
-            ORDER BY id_pegawai DESC
-            LIMIT 1";
-    $result = mysqli_query($conn, $sql);
-    if(mysqli_num_rows($result) > 0){
-        $data = mysqli_fetch_assoc($result);
-        $id_terakhir_tersimpan = $data['id_pegawai'];
+if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
+    // hapus data
+    $sql = "DELETE FROM pengguna
+            WHERE id_karyawan='$id_karyawan'";
+    if(mysqli_query($conn, $sql)){
+        $pesan_berhasil = "Data berhasil dihapus";
     }else{
-        $id_terakhir_tersimpan = $init.''.$string.'000';
-    }        
-
-    // panggil fungsi generate kode
-    $id_pegawai = buat_kode_pegawai($init, $string, $id_terakhir_tersimpan);
-    
-    // simpan data
-    $sql = "INSERT INTO pegawai (id_pegawai, nama_pegawai, alamat, no_telp, email, jabatan, nama_pengguna, kata_sandi)
-            VALUES ('$id_pegawai', '$nama_pegawai', '$alamat', '$no_telp', '$email', '$jabatan', '$nama_pengguna', '$kata_sandi')";
+        $pesan_gagal = "Data gagal dihapus";
+    }
+}else if ($id_karyawan_lama=='') {
+        // simpan data
+    $sql = "INSERT INTO pengguna (id_karyawan, nama_karyawan, email, divisi, nama_pengguna, kata_sandi)
+            VALUES ('$id_karyawan', '$nama_karyawan', '$email', '$divisi', '$nama_pengguna', '$kata_sandi')";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil disimpan";
     }else{
         $pesan_gagal = "Data gagal disimpan";
     }
-}else if($id_pegawai!='' AND empty(mysqli_escape_string($conn, trim($_POST['hapus'])))){
+}else if($id_karyawan_lama!=''){
     // perbaharui data
-    $sql = "UPDATE pegawai 
-            SET nama_pegawai='$nama_pegawai', alamat='$alamat', no_telp='$no_telp', email='$email', jabatan='$jabatan', nama_pengguna='$nama_pengguna', kata_sandi='$kata_sandi'
-            WHERE id_pegawai='$id_pegawai'";
+    $sql = "UPDATE pengguna
+            SET id_karyawan='$id_karyawan', nama_karyawan='$nama_karyawan', email='$email', divisi='$divisi', nama_pengguna='$nama_pengguna', kata_sandi='$kata_sandi'
+            WHERE id_karyawan='$id_karyawan_lama'";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil diperbaharui";
     }else{
         $pesan_gagal = "Data gagal diperbaharui";
-    }
-}else if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
-    // hapus data
-    $sql = "DELETE FROM pegawai
-            WHERE id_pegawai='$id_pegawai'";
-    if(mysqli_query($conn, $sql)){
-        $pesan_berhasil = "Data berhasil dihapus";
-    }else{
-        $pesan_gagal = "Data gagal dihapus";
     }
 }
 

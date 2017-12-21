@@ -30,10 +30,11 @@
 
                     <div id="" class="collapse tampil">
                         <div class="well">
-                            <form action="../action/bahan_makanan.php" method="post" class="myform">
+                            <form action="../action/pengguna.php" method="post" class="myform">
 
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
+                                <input type="hidden" name="id_karyawan_lama" value="" class="form-control" placeholder="" readonly>
 
                                 <table class="table table-renponsive">
                                     <caption>Masukkan Data Pengguna:</caption>
@@ -106,7 +107,7 @@
                                     <th width="10%" class="text-left">Email</th>
                                     <th width="10%" class="text-center">Divisi</th>
                                     <th width="10%" class="text-center">Nama Pengguna</th>
-                                    <th width="10%" class="text-center"></th>
+                                    <th width="14%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -143,6 +144,7 @@
 <script>
     function ubah(id_karyawan, nama_karyawan, email, divisi, nama_pengguna){
         $('.well input[name=id_karyawan]').val(id_karyawan);
+        $('.well input[name=id_karyawan_lama]').val(id_karyawan);
         $('.well input[name=nama_karyawan]').val(nama_karyawan);
         $('.well input[name=email]').val(email);
         $('.well select[name=divisi]').val(divisi);
@@ -177,6 +179,34 @@
                         { sClass: "dt-center", "aTargets": [0,3,4] },
                         { sClass: "dt-nowrap", "aTargets": [0,1,2] }
                     ]
+        });
+
+        $(".myform").submit(function(e)
+        {
+
+        var formObj = $(this);
+        var formURL = formObj.attr("action");
+        var formData = new FormData(this);
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data:  formData,
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function (){
+                       $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
+                       },
+            success: function(data, textStatus, jqXHR){
+                    $("#result").html(data);
+                    $("#loading").hide();
+                    $('#mytable').DataTable().ajax.reload();
+            },
+                error: function(jqXHR, textStatus, errorThrown){
+         }
+        });
+            e.preventDefault(); //Prevent Default action.
+            e.unbind();
         });
 
     });

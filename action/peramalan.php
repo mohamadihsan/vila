@@ -12,12 +12,12 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
     $periode    = $bulan.'-'.$tahun;
     $periode_bulan_sebelumnya = date('Y-m-d', strtotime('01-'.$periode));
     $periode_bulan_sebelumnya = date('m-Y', strtotime('-1 month', strtotime($periode_bulan_sebelumnya)));
-    $alpha      = 0.1;
+    $alpha      = 0.9;
 
     // jumlah pemesanan sebulan sebelum periode yang dicari
     $sql = "SELECT barang_keluar as jumlah_pemakaian
             FROM persediaan_bahan_makanan
-            WHERE id_bahan_makanan = '$id_bahan_makanan' 
+            WHERE id_bahan_makanan = '$id_bahan_makanan'
             AND DATE_FORMAT(tanggal,'%m-%Y') = '$periode_bulan_sebelumnya'";
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_assoc($result);
@@ -25,37 +25,40 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
     if ($jumlah_pemakaian == NULL) {
         $jumlah_pemakaian = 0;
     }
-    
+
     // jumlah peramalan 1 bulan yang lalu dari periode yang dicari
-    $sql = "SELECT hasil_peramalan
-            FROM peramalan
-            WHERE DATE_FORMAT(periode,'%m-%Y') = '$periode_bulan_sebelumnya'";
+        $sql = "SELECT hasil_peramalan
+                FROM peramalan
+            WHERE id_bahan_makanan = '$id_bahan_makanan'
+            AND DATE_FORMAT(periode,'%m-%Y') = '$periode_bulan_sebelumnya'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = mysqli_fetch_assoc($result);
         $hasil_peramalan_bulan_sebelumnya = $data['hasil_peramalan'];
     }else{
         $hasil_peramalan_bulan_sebelumnya = $jumlah_pemakaian;
-    }        
-    
+    }
+
     // rumus single exponential smoothing
-    $hasil_peramalan = ceil(($alpha * $jumlah_pemakaian) + (1 - $alpha) * $hasil_peramalan_bulan_sebelumnya); 
+    $hasil_peramalan = ceil(($alpha * $jumlah_pemakaian) + (1 - $alpha) * $hasil_peramalan_bulan_sebelumnya);
 
     $periode = $tahun.'-'.$bulan.'-01';
+    // echo $hasil_peramalan;die();
     // cek data apakah sudah tersedia atau belum
-    $sql = "SELECT id_peramalan 
+    $sql = "SELECT id_peramalan
             FROM peramalan
-            WHERE periode='$periode'";
+            WHERE id_bahan_makanan = '$id_bahan_makanan'
+            AND periode='$periode'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = mysqli_fetch_assoc($result);
         $id_peramalan = $data['id_peramalan'];
-        
+
         // update data
         $sql = "UPDATE peramalan
                 SET hasil_peramalan = '$hasil_peramalan'
                 WHERE id_peramalan = '$id_peramalan'";
-        mysqli_query($conn, $sql);        
+        mysqli_query($conn, $sql);
     }else{
         // simpan data
         $sql = "INSERT INTO peramalan (periode, id_bahan_makanan, hasil_peramalan)
@@ -78,7 +81,7 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
     }
 }
 
-                
+
 
 if (isset($pesan_berhasil)) {
     ?>
