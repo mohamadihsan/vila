@@ -6,7 +6,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="./">Beranda</a>
                 </li>
-                <li class="active">Peramalan </li>
+                <li class="active">Persediaan</li>
             </ul><!-- /.breadcrumb -->
         </div>
 
@@ -14,7 +14,7 @@
 
             <div class="page-header">
                 <h1>
-                    Peramalan
+                    Persediaan
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -30,17 +30,19 @@
 
                     <div id="" class="collapse tampil">
                         <div class="well">
-                            <form action="../action/peramalan.php" method="post" class="myform">
+                            <form action="../action/persediaan.php" method="post" class="myform">
 
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
+                                <input type="hidden" name="id_bahan_makanan_lama" value="" class="form-control" placeholder="" readonly>
+                                <input type="hidden" name="tanggal_lama" value="" class="form-control" placeholder="" readonly>
 
                                 <table class="table table-renponsive">
-                                    <caption>Masukkan Data Peramalan:</caption>
+                                    <caption>Masukkan Data Barang (Bahan Baku):</caption>
                                     <tr>
-                                        <td width="15%">Bahan Makanan</td>
+                                        <td width="15%">Barang</td>
                                         <td>
-                                            <select name="id_bahan_makanan" class="form-control select2" required>
+                                            <select name="id_bahan_makanan" class="form-control" required>
                                                 <?php
                                                 // retrieve data dari API
                                                 $file = file_get_contents($url_api."tampilkan_data_bahan_makanan.php");
@@ -59,50 +61,20 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td width="15%">Barang Masuk</td>
+                                        <td><input type="number" name="barang_masuk" value="0" class="form-control" placeholder="" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Barang Keluar</td>
+                                        <td><input type="number" name="barang_keluar" value="0" class="form-control" placeholder="" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Harga satuan</td>
+                                        <td><input type="number" name="harga_satuan" value="0" class="form-control" placeholder="" required></td>
+                                    </tr>
+                                    <tr>
                                         <td width="15%">Periode</td>
-                                        <td>
-                                            <select name="bulan" class="form-control select2" required>
-                                                <option value="01">Januari</option>
-                                                <option value="02">Februari</option>
-                                                <option value="03">Maret</option>
-                                                <option value="04">April</option>
-                                                <option value="05">Mei</option>
-                                                <option value="06">Juni</option>
-                                                <option value="07">Juli</option>
-                                                <option value="08">Agustus</option>
-                                                <option value="09">September</option>
-                                                <option value="10">Oktober</option>
-                                                <option value="11">November</option>
-                                                <option value="12">Desember</option>
-                                            </select>
-                                            <select name="tahun" class="form-control select2" required>
-                                                <?php
-                                                // retrieve data dari API
-                                                $file = file_get_contents($url_api."tampilkan_data_tahun_peramalan.php");
-                                                $json = json_decode($file, true);
-                                                $i=0;
-                                                if (count($json['data']) == 0) {
-                                                    ?><option value="<?= date('Y')?>"><?= date('Y') ?></option><?php
-                                                }else{
-                                                    while ($i < count($json['data'])) {
-                                                        $tahun[$i] = $json['data'][$i]['tahun'];
-                                                        if ($i==0) {
-                                                            ?><option value="<?= $tahun[$i]-1 ?>"> <?= $tahun[$i]-1 ?></option><?php
-                                                        }
-                                                        ?>
-                                                        <option value="<?= $tahun[$i] ?>"> <?= $tahun[$i] ?></option>
-                                                        <?php
-                                                        if ($i==count($json['data'])-1) {
-                                                            ?><option value="<?= $tahun[$i]+1 ?>"> <?= $tahun[$i]+1 ?></option><?php
-                                                        }
-
-                                                        $i++;
-                                                    }
-                                                }
-                                                ?>
-
-                                            </select>
-                                        </td>
+                                        <td><input type="date" name="tanggal" value="0" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -114,21 +86,18 @@
                                     </tr>
                                 </table>
                             </form>
-
-                              <!-- Tampilkan hasil -->
-                            <div id="result"></div>
-
                         </div>
                     </div>
 
                     <!-- loading -->
                     <center><div id="loading"></div></center>
+                    <div id="result"></div>
 
                     <div class="clearfix">
                         <div class="pull-right tableTools-container"></div>
                     </div>
                     <div class="table-header">
-                        Daftar data "Peramalan"
+                        Daftar data "Persediaan"
                     </div>
                     <!-- div.table-responsive -->
 
@@ -137,11 +106,16 @@
                         <table id="mytable" class="display" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="">
-                                    <th width="7%" class="text-center">No</th>
+                                    <th width="5%" class="text-center">No</th>
+                                    <th width="10%" class="text-left">ID Barang</th>
+                                    <th width="15%" class="text-left">Nama Barang</th>
+                                    <th width="5%" class="text-left">Masuk</th>
+                                    <th width="5%" class="text-left">Keluar</th>
+                                    <th width="10%" class="text-left">Sisa</th>
+                                    <th width="10%" class="text-left">Satuan</th>
+                                    <th width="10%" class="text-left">Harga Satuan</th>
                                     <th width="15%" class="text-left">Periode</th>
-                                    <th width="40%" class="text-left">ID Bahan Makanan</th>
-                                    <th width="15%" class="text-left">Hasil Peramalan</th>
-                                    <th width="5%" class="text-center"></th>
+                                    <th width="14%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -161,10 +135,11 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
             </div>
-            <form method="post" action="../action/peramalan.php" class="myform">
+            <form method="post" action="../action/persediaan.php" class="myform">
                 <div class="modal-body">
                     <input type="hidden" name="hapus" value="1" readonly>
-                    <input type="hidden" name="id_peramalan" readonly>
+                    <input type="hidden" name="id_bahan_makanan" readonly>
+                    <input type="hidden" name="tanggal" readonly>
                     <p>Apakah anda akan menghapus data ini?</p>
                 </div>
                 <div class="modal-footer">
@@ -176,12 +151,19 @@
 </div>
 
 <script>
-    function detail(id_peramalan) {
-
+    function ubah(id_bahan_makanan, barang_masuk, barang_keluar, harga_satuan, tanggal){
+        $('.well select[name=id_bahan_makanan]').val(id_bahan_makanan);
+        $('.well input[name=id_bahan_makanan_lama]').val(id_bahan_makanan);
+        $('.well input[name=barang_masuk]').val(barang_masuk);
+        $('.well input[name=barang_keluar]').val(barang_keluar);
+        $('.well input[name=harga_satuan]').val(harga_satuan);
+        $('.well input[name=tanggal]').val(tanggal);
+        $('.well input[name=tanggal_lama]').val(tanggal);
     }
 
-    function hapus(id_peramalan){
-        $('.modal-body input[name=id_peramalan]').val(id_peramalan);
+    function hapus(id_bahan_makanan, tanggal){
+        $('.modal-body input[name=id_bahan_makanan]').val(id_bahan_makanan);
+        $('.modal-body input[name=tanggal]').val(tanggal);
     }
 
     // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
@@ -189,7 +171,7 @@
 
         $('#mytable').DataTable({
                     "bProcessing": true,
-                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_peramalan.php' ?>",
+                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_persediaan.php' ?>",
                     "deferRender": true,
                     "select": true,
                     //"dom": 'Bfrtip',
@@ -197,10 +179,15 @@
                     //"order": [[ 4, "desc" ]],
                      "aoColumns": [
                             { mData: 'no' } ,
-                            { mData: 'periode' } ,
                             { mData: 'id_bahan_makanan' } ,
-                            { mData: 'hasil_peramalan' },
-                            { mData: 'action_hapus'}
+                            { mData: 'nama_bahan_makanan' } ,
+                            { mData: 'barang_masuk' } ,
+                            { mData: 'barang_keluar' } ,
+                            { mData: 'sisa' } ,
+                            { mData: 'satuan' } ,
+                            { mData: 'harga_satuan' } ,
+                            { mData: 'tanggal' },
+                            { mData: 'action'}
                     ]
         });
 

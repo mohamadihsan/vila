@@ -33,6 +33,16 @@
 
 						<b class="arrow"></b>
 					</li>
+
+
+					<li class="<?php if($menu=='laporan') echo "active"; ?>">
+						<a href="./index.php?menu=laporan">
+							<i class="menu-icon fa fa-file-text-o"></i>
+							<span class="menu-text"> Laporan </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 				</ul><!-- /.nav-list -->
 			</div>
 		</div>

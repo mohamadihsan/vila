@@ -13,7 +13,7 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
     $periode_bulan_sebelumnya = date('Y-m-d', strtotime('01-'.$periode));
     $periode_bulan_sebelumnya = date('m-Y', strtotime('-1 month', strtotime($periode_bulan_sebelumnya)));
     $alpha      = 0.9;
-
+    ;
     // jumlah pemesanan sebulan sebelum periode yang dicari
     $sql = "SELECT barang_keluar as jumlah_pemakaian
             FROM persediaan_bahan_makanan

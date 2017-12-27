@@ -25,8 +25,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['email']          = $row['email'];
     $sub_array['divisi']        = $row['divisi'];
     $sub_array['nama_pengguna']  = $row['nama_pengguna'];
-	$sub_array['action']	     = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_karyawan'].'\',\''.$row['nama_karyawan'].'\',\''.$row['email'].'\',\''.$row['divisi'].'\',\''.$row['nama_pengguna'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
-                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_karyawan'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
+    if ($sub_array['divisi'] == "general manager") {
+        $sub_array['action']	     = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_karyawan'].'\',\''.$row['nama_karyawan'].'\',\''.$row['email'].'\',\''.$row['divisi'].'\',\''.$row['nama_pengguna'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>';
+    }else{
+        $sub_array['action']	     = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_karyawan'].'\',\''.$row['nama_karyawan'].'\',\''.$row['email'].'\',\''.$row['divisi'].'\',\''.$row['nama_pengguna'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
+                                         <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_karyawan'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
+    }
+
 
     $data[] = $sub_array;
 }

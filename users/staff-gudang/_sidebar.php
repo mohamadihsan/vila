@@ -52,9 +52,18 @@
 						<b class="arrow"></b>
 					</li>
 
+					<li class="<?php if($menu=='barang-keluar') echo "active"; ?>">
+						<a href="./index.php?menu=barang-keluar">
+							<i class="menu-icon fa fa-retweet text-danger"></i>
+							<span class="menu-text"> Barang Keluar </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
 					<li class="<?php if($menu=='persediaan') echo "active"; ?>">
 						<a href="./index.php?menu=persediaan">
-							<i class="menu-icon fa fa-retweet text-danger"></i>
+							<i class="menu-icon fa fa-file-text-o"></i>
 							<span class="menu-text"> Persediaan </span>
 						</a>
 

@@ -25,7 +25,6 @@
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
-
                     <div class="clearfix">
                         <div class="pull-right tableTools-container"></div>
                     </div>
@@ -58,7 +57,10 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
+
+
 <script>
+
     // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
     $(document).ready(function(){
 

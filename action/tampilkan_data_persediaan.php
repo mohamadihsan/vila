@@ -30,8 +30,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['satuan']            = $row['satuan'];
     $sub_array['harga_satuan']      = Rupiah($row['harga_satuan']);
     $sub_array['tanggal']           = $row['tanggal'];
-    $sub_array['action']            = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_bahan_makanan'].'\',\''.$row['barang_masuk'].'\',\''.$row['barang_keluar'].'\',\''.$row['harga_satuan'].'\',\''.$row['tanggal'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
-                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_bahan_makanan'].'\',\''.$row['tanggal'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
+    $sub_array['action']            = ' <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_bahan_makanan'].'\',\''.$row['tanggal'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
+    // $sub_array['action']            = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_bahan_makanan'].'\',\''.$row['barang_masuk'].'\',\''.$row['barang_keluar'].'\',\''.$row['harga_satuan'].'\',\''.$row['tanggal'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
+    //                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_bahan_makanan'].'\',\''.$row['tanggal'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
     $data[] = $sub_array;
 }
 

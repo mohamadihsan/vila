@@ -45,6 +45,10 @@ switch ($divisi) {
 					include_once '../users/banquet-manager/peramalan.php';
 					break;
 
+				case 'persediaan':
+					include_once '../users/banquet-manager/persediaan.php';
+					break;
+
 				case 'permintaan-menu':
 					include_once '../users/banquet-manager/permintaan_menu.php';
 					break;
@@ -91,6 +95,10 @@ switch ($divisi) {
 			switch ($menu) {
 				case 'bahan-makanan':
 					include_once '../users/staff-gudang/bahan_makanan.php';
+					break;
+
+				case 'barang-keluar':
+					include_once '../users/staff-gudang/barang_keluar.php';
 					break;
 
 				case 'kategori':
