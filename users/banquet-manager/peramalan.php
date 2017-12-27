@@ -86,9 +86,6 @@
                                                 }else{
                                                     while ($i < count($json['data'])) {
                                                         $tahun[$i] = $json['data'][$i]['tahun'];
-                                                        if ($i==0) {
-                                                            ?><option value="<?= $tahun[$i]-1 ?>"> <?= $tahun[$i]-1 ?></option><?php
-                                                        }
                                                         ?>
                                                         <option value="<?= $tahun[$i] ?>"> <?= $tahun[$i] ?></option>
                                                         <?php
