@@ -41,7 +41,7 @@
 			    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
 				var container1 = demo1.bootstrapDualListbox('getContainer');
 				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-			
+
 				//select2
 				$('.select2').css('width','250px').select2({allowClear:true})
 				$('#select2-multiple-style .btn').on('click', function(e){
@@ -50,7 +50,7 @@
 					if(which == 2) $('.select2').addClass('tag-input-style');
 					 else $('.select2').removeClass('tag-input-style');
 				});
-				
+
 				// multiselect
 				$('.multiselect').multiselect({
 				 enableFiltering: true,
@@ -66,7 +66,7 @@
 			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
 				 }
 				});
-				
+
 			});
 		</script>
 	</body>
