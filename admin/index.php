@@ -29,7 +29,7 @@ switch ($divisi) {
 					include_once '../users/banquet-manager/detail_resep.php';
 					break;
 
-				case 'kebutuhan_bahan_baku':
+				case 'kebutuhan-bahan':
 					include_once '../users/banquet-manager/kebutuhan_bahan_baku.php';
 					break;
 
