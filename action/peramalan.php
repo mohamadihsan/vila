@@ -15,7 +15,7 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
     $alpha      = 0.9;
     ;
     // jumlah pemesanan sebulan sebelum periode yang dicari
-    $sql = "SELECT barang_keluar as jumlah_pemakaian
+    $sql = "SELECT SUM(barang_keluar) as jumlah_pemakaian
             FROM persediaan_bahan_makanan
             WHERE id_bahan_makanan = '$id_bahan_makanan'
             AND DATE_FORMAT(tanggal,'%m-%Y') = '$periode_bulan_sebelumnya'";
