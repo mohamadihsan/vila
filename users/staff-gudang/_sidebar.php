@@ -34,8 +34,8 @@
 						<b class="arrow"></b>
 					</li>
 
-					<li class="<?php if($menu=='pemesanan') echo "active"; ?>">
-						<a href="./index.php?menu=pemesanan">
+					<li class="<?php if($menu=='pemesanan-bahan') echo "active"; ?>">
+						<a href="./index.php?menu=pemesanan-bahan">
 							<i class="menu-icon fa fa-reorder"></i>
 							<span class="menu-text"> Pemesanan Bahan </span>
 						</a>

@@ -106,7 +106,7 @@ switch ($divisi) {
 					break;
 
 				case 'pemesanan-bahan':
-					include_once '../users/staff-gudang/pemesanan_bahan.php';
+					include_once '../users/staff-gudang/pemesanan_bahan_makanan.php';
 					break;
 
 				case 'persediaan':
