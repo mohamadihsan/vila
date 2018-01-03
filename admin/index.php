@@ -153,6 +153,10 @@ switch ($divisi) {
 			include_once '../users/general-manager/_sidebar.php';
 			// load content
 			switch ($menu) {
+				case 'laporan':
+					include_once '../users/general-manager/laporan.php';
+					break;
+
 				case 'pengguna':
 					include_once '../users/general-manager/pengguna.php';
 					break;
