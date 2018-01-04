@@ -6,7 +6,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="./">Beranda</a>
                 </li>
-                <li class="active">Supplier</li>
+                <li class="active">Barang</li>
             </ul><!-- /.breadcrumb -->
         </div>
 
@@ -14,7 +14,7 @@
 
             <div class="page-header">
                 <h1>
-                    Supplier
+                    Barang
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -30,36 +30,46 @@
 
                     <div id="" class="collapse tampil">
                         <div class="well">
-                            <form action="../action/supplier.php" method="post" class="myform">
+                            <form action="../action/barang_supplier.php" method="post" class="myform">
 
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
 
                                 <table class="table table-renponsive">
-                                    <caption>Masukkan Data Supplier:</caption>
+                                    <caption>Masukkan Data Barang:</caption>
                                     <tr>
-                                        <td width="15%">ID Supplier</td>
-                                        <td><input type="text" name="id_supplier" value="" class="form-control" placeholder="ID akan dibuat secara otomatis" readonly></td>
+                                        <td width="15%">Barang</td>
+                                        <td>
+                                        <select name="id_bahan_makanan" class="form-control" required>
+                                                <?php
+                                                // retrieve data dari API
+                                                $file = file_get_contents($url_api."tampilkan_data_bahan_makanan.php");
+                                                $json = json_decode($file, true);
+                                                $i=0;
+                                                while ($i < count($json['data'])) {
+                                                    $id_bahan_makanan[$i] = $json['data'][$i]['id_bahan_makanan'];
+                                                    $nama_bahan_makanan[$i] = $json['data'][$i]['id_bahan_makanan'].' - '.$json['data'][$i]['nama_bahan_makanan'];
+                                                    $satuan[$i] = $json['data'][$i]['satuan'];
+                                                    ?>
+                                                    <option value="<?= $id_bahan_makanan[$i] ?>"> <?= $nama_bahan_makanan[$i].' (satuan : '.$satuan[$i].')' ?></option>
+                                                    <?php
+                                                    $i++;
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td width="15%">Nama Supplier</td>
-                                        <td><input type="text" name="nama_supplier" value="" class="form-control" placeholder="Misal: PT. CDE" required></td>
+                                        <td width="15%">Harga</td>
+                                        <td><input type="number" name="harga" value="" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
-                                        <td width="15%">Alamat</td>
-                                        <td><input type="text" name="alamat" value="" class="form-control" placeholder="Misal: Bandung" required></td>
+                                        <td width="15%">Minimal Order</td>
+                                        <td><input type="number" name="minimal_order" value="" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
-                                        <td width="15%">No Telp</td>
-                                        <td><input type="text" name="no_telp" value="" class="form-control" placeholder="" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15%">Email</td>
-                                        <td><input type="email" name="email" value="" class="form-control" placeholder=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15%">Waktu Pengiriman (hari)</td>
-                                        <td><input type="number" name="waktu_pengiriman" value="" class="form-control" placeholder="" required></td>
+                                        <td width="15%">Kelipatan Order</td>
+                                        <td><input type="number" name="kelipatan_order" value="" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -82,7 +92,7 @@
                         <div class="pull-right tableTools-container"></div>
                     </div>
                     <div class="table-header">
-                        Daftar data "Supplier"
+                        Daftar data "Barang"
                     </div>
                     <!-- div.table-responsive -->
 
@@ -91,15 +101,12 @@
                         <table id="mytable" class="display" width="100%" cellspacing="0">
                             <thead>
                                 <tr class="">
-                                    <th width="5%" class="text-center">No</th>
-                                    <th width="10%" class="text-left">ID</th>
+                                    <th width="7%" class="text-center">No</th>
+                                    <th width="15%" class="text-left">ID</th>
                                     <th width="15%" class="text-left">Nama</th>
-                                    <th width="10%" class="text-left">Alamat</th>
-                                    <th width="10%" class="text-center">No Telp</th>
-                                    <th width="15%" class="text-center">Email</th>
-                                    <th width="5%" class="text-center">Waktu Pengiriman</th>
-                                    <!-- <th width="15%" class="text-center">Nama Pengguna</th> -->
-                                    <th width="17%" class="text-center"></th>
+                                    <th width="10%" class="text-left">Satuan</th>
+                                    <th width="12%" class="text-center">Harga</th>
+                                    <th width="14%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -119,10 +126,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
             </div>
-            <form method="post" action="../action/supplier.php" class="myform">
+            <form method="post" action="../action/barang_supplier.php" class="myform">
                 <div class="modal-body">
                     <input type="hidden" name="hapus" value="1" readonly>
-                    <input type="hidden" name="id_supplier" readonly>
+                    <input type="hidden" name="id_bahan_makanan" readonly>
                     <p>Apakah anda akan menghapus data ini?</p>
                 </div>
                 <div class="modal-footer">
@@ -134,18 +141,13 @@
 </div>
 
 <script>
-    function ubah(id_supplier, nama_supplier, alamat, no_telp, email, waktu_pengiriman, nama_pengguna){
-        $('.well input[name=id_supplier]').val(id_supplier);
-        $('.well input[name=nama_supplier]').val(nama_supplier);
-        $('.well input[name=alamat]').val(alamat);
-        $('.well input[name=no_telp]').val(no_telp);
-        $('.well input[name=email]').val(email);
-        $('.well input[name=waktu_pengiriman]').val(waktu_pengiriman);
-        $('.well input[name=nama_pengguna]').val(nama_pengguna);
+    function ubah(id_bahan_makanan, harga){
+        $('.well select[name=id_bahan_makanan]').val(id_bahan_makanan);
+        $('.well input[name=harga]').val(harga);
     }
 
-    function hapus(id_supplier){
-        $('.modal-body input[name=id_supplier]').val(id_supplier);
+    function hapus(id_bahan_makanan){
+        $('.modal-body input[name=id_bahan_makanan]').val(id_bahan_makanan);
     }
 
     // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
@@ -153,7 +155,7 @@
 
         $('#mytable').DataTable({
                     "bProcessing": true,
-                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_supplier.php' ?>",
+                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_barang_supplier.php?id='.$_GET['id_supplier'] ?>",
                     "deferRender": true,
                     "select": true,
                     //"dom": 'Bfrtip',
@@ -161,18 +163,11 @@
                     //"order": [[ 4, "desc" ]],
                      "aoColumns": [
                             { mData: 'no' } ,
-                            { mData: 'id_supplier' } ,
-                            { mData: 'nama_supplier' } ,
-                            { mData: 'alamat' },
-                            { mData: 'no_telp' },
-                            { mData: 'email' },
-                            { mData: 'waktu_pengiriman' },
-                            // { mData: 'nama_pengguna' },
+                            { mData: 'id_bahan_makanan' } ,
+                            { mData: 'nama_bahan_makanan' } ,
+                            { mData: 'satuan' },
+                            { mData: 'harga' },
                             { mData: 'action'}
-                    ],
-                    "aoColumnDefs": [
-                        { sClass: "dt-center", "aTargets": [0,3,4,5] },
-                        { sClass: "dt-nowrap", "aTargets": [0,1,2] }
                     ]
         });
 

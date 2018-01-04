@@ -71,6 +71,10 @@ switch ($divisi) {
 					include_once '../users/purchasing/bahan_makanan.php';
 					break;
 
+				case 'barang':
+					include_once '../users/purchasing/barang.php';
+					break;
+
 				case 'supplier':
 					include_once '../users/purchasing/supplier.php';
 					break;
