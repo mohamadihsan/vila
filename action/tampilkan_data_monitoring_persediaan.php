@@ -6,10 +6,16 @@ require_once '../config/connection.php';
 $sql = "SELECT id_bahan_makanan FROM bahan_makanan LIMIT 1";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
+$data_id = $row['id_bahan_makanan'];
+
+$sql = "SELECT DATE_FORMAT(tanggal, '%Y') as periode FROM persediaan_bahan_makanan ORDER BY tanggal DESC LIMIT 1";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$data_periode = $row['periode'];
 
 // inisialisasi
-$periode            = isset($_GET['periode']) ? $_GET['periode']: date('Y');
-$id_bahan_makanan   = isset($_GET['id']) ? $_GET['id']: $row['id_bahan_makanan'];
+$periode            = isset($_GET['periode']) ? $_GET['periode']: $data_periode;
+$id_bahan_makanan   = isset($_GET['id']) ? $_GET['id']: $data_id;
 
 // sql statement
 $sql = "SELECT
@@ -24,8 +30,8 @@ $sql = "SELECT
         		FROM
         			peramalan
         		WHERE
-        			DATE_FORMAT(periode, '%Y') = '2017'
-        		AND peramalan.id_bahan_makanan = 'BRG-001'
+        			DATE_FORMAT(periode, '%Y') = '$periode'
+        		AND peramalan.id_bahan_makanan = '$id_bahan_makanan'
         		GROUP BY
         			1
         	) AS x
@@ -36,8 +42,8 @@ $sql = "SELECT
         	FROM
         		persediaan_bahan_makanan
         	WHERE
-        		DATE_FORMAT(tanggal, '%Y') = '2017'
-        	AND persediaan_bahan_makanan.id_bahan_makanan = 'BRG-001'
+        		DATE_FORMAT(tanggal, '%Y') = '$periode'
+        	AND persediaan_bahan_makanan.id_bahan_makanan = '$id_bahan_makanan'
         	GROUP BY
         		1
         ) AS y ON x.periode = y.tanggal
