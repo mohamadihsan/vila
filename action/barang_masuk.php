@@ -3,23 +3,25 @@
 require_once '../config/connection.php';
 
 if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
-    $id_bahan_baku  = strtoupper(mysqli_escape_string($conn, trim($_POST['id_bahan_baku'])));
-    $jumlah         = strtolower(mysqli_escape_string($conn, trim($_POST['jumlah'])));
+    $id_bahan_makanan   = mysqli_escape_string($conn, trim($_POST['id_bahan_makanan']));
+    $barang_masuk      = mysqli_escape_string($conn, trim($_POST['barang_masuk']));
+    $harga_satuan       = mysqli_escape_string($conn, trim($_POST['harga_satuan']));
+    $tanggal            = mysqli_escape_string($conn, trim($_POST['tanggal']));
 
     // simpan data
-    $sql = "INSERT INTO barang_masuk (id_bahan_baku, jumlah)
-            VALUES ('$id_bahan_baku', '$jumlah')";
+    $sql = "INSERT INTO persediaan_bahan_makanan (id_bahan_makanan, barang_masuk, harga_satuan, tanggal)
+            VALUES ('$id_bahan_makanan', '$barang_masuk', '$harga_satuan', '$tanggal')";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil disimpan";
     }else{
         $pesan_gagal = "Data gagal disimpan";
     }
 }else if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
-    $id_barang_masuk    = strtolower(mysqli_escape_string($conn, trim($_POST['id_barang_masuk'])));
+    $tanggal    = mysqli_escape_string($conn, trim($_POST['tanggal']));
 
     // hapus data
-    $sql = "DELETE FROM barang_masuk
-            WHERE id_barang_masuk='$id_barang_masuk'";
+    $sql = "DELETE FROM persediaan_bahan_makanan
+            WHERE id_bahan_makanan='$id_bahan_makanan' AND tanggal='$tanggal'";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil dihapus";
     }else{
