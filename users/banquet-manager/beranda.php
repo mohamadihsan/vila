@@ -24,7 +24,7 @@
 
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
-                    <caption><h5><b>Monitoring persediaan</b></h5></caption>
+                    <caption><h5><b>Monitoring persediaan <?= date('M-Y') ?></b></h5></caption>
                     <div style="width:100%;">
                         <table class="table table-responsive table-bordered">
                             <thead>
@@ -83,11 +83,14 @@ $(document).ready(function(){
             var periode = [];
             var hasil_peramalan = [];
             var pengeluaran = [];
+            var tahun;
             var obj = JSON.parse(data);
             $.each(obj, function(key, val) {
                 periode.push(val.periode);
                 hasil_peramalan.push(val.hasil_peramalan);
                 pengeluaran.push(val.pengeluaran);
+
+                tahun = val.tahun;
             })
 
             // for(var i in data) {
@@ -124,7 +127,7 @@ $(document).ready(function(){
                     responsive: true,
                     title:{
                         display:true,
-                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan'
+                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + tahun
                     },
                     tooltips: {
                         mode: 'index',

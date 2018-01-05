@@ -54,6 +54,7 @@ $data = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $periode = $row['tanggal'];
     $sub_array['periode']   = $row['tanggal'];
+    $sub_array['tahun']   = $data_periode;
     $sub_array['hasil_peramalan']   = $row['hasil_peramalan'];
     $sub_array['pengeluaran']   = $row['barang_keluar'];
 

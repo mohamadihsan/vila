@@ -26,7 +26,7 @@ $sql = "SELECT
         		persediaan_bahan_makanan
         	WHERE
         		sisa = 0
-        	AND DATE_FORMAT(tanggal, '%m-%Y') = '12-2017'
+        	AND DATE_FORMAT(tanggal, '%m-%Y') = '$periode'
         	GROUP BY
         		1
         ) AS y ON x.id_bahan_makanan = y.id_bahan_makanan";
