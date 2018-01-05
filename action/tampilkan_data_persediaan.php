@@ -12,11 +12,56 @@ function Rupiah($rupiah) {
     return 'Rp.'.($hasil);
 }
 
+$status = isset($_GET['status']) ? $_GET['status'] : '';
+
+if ($status == 'masuk') {
+    $where = "WHERE barang_masuk != 0";
+}else if ($status == 'keluar') {
+    $where = "WHERE barang_keluar != 0";
+}else{
+
+}
+
 // sql statement
-$sql = "SELECT p.id_bahan_makanan, p.barang_masuk, p.barang_keluar, p.sisa, p.harga_satuan, p.tanggal, bm.nama_bahan_makanan, bm.satuan
-        FROM persediaan_bahan_makanan p
-        LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan=p.id_bahan_makanan
-        ORDER BY p.id_bahan_makanan ASC";
+if ($status == 'masuk' OR $status == 'keluar') {
+    $sql = "SELECT p.id_bahan_makanan, p.barang_masuk, p.barang_keluar, p.sisa, p.harga_satuan, p.tanggal, bm.nama_bahan_makanan, bm.satuan
+            FROM persediaan_bahan_makanan p
+            LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan=p.id_bahan_makanan
+            $where
+            ORDER BY p.id_bahan_makanan ASC, p.tanggal DESC";
+}else{
+    $sql = "SELECT
+            	x.id_bahan_makanan,
+            	x.barang_masuk,
+            	x.barang_keluar,
+            	( x.barang_masuk - x.barang_keluar ) AS sisa,
+            	x.harga_satuan,
+            	x.tanggal,
+            	x.nama_bahan_makanan,
+            	x.satuan
+            FROM
+            	(
+            SELECT
+            	p.id_bahan_makanan,
+            	SUM( p.barang_masuk ) AS barang_masuk,
+            	SUM( p.barang_keluar ) AS barang_keluar,
+            	p.harga_satuan,
+            	DATE_FORMAT( p.tanggal, '%m-%Y' ) AS tanggal,
+            	bm.nama_bahan_makanan,
+            	bm.satuan
+            FROM
+            	persediaan_bahan_makanan p
+            	LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan = p.id_bahan_makanan
+            GROUP BY
+            	1,
+            	4,
+            	5
+            ORDER BY
+            	p.id_bahan_makanan ASC,
+            	tanggal DESC
+            	) AS x";
+}
+
 $result = mysqli_query($conn, $sql);
 $data = array();
 $no = 1;

@@ -105,6 +105,10 @@ switch ($divisi) {
 					include_once '../users/staff-gudang/barang_keluar.php';
 					break;
 
+				case 'barang-masuk':
+					include_once '../users/staff-gudang/barang_masuk.php';
+					break;
+
 				case 'kategori':
 					include_once '../users/staff-gudang/kategori_bahan_makanan.php';
 					break;

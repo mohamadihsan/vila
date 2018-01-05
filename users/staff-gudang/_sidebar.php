@@ -52,6 +52,15 @@
 						<b class="arrow"></b>
 					</li>
 
+					<li class="<?php if($menu=='barang-masuk') echo "active"; ?>">
+						<a href="./index.php?menu=barang-masuk">
+							<i class="menu-icon fa fa-retweet text-success"></i>
+							<span class="menu-text"> Barang Masuk </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
 					<li class="<?php if($menu=='barang-keluar') echo "active"; ?>">
 						<a href="./index.php?menu=barang-keluar">
 							<i class="menu-icon fa fa-retweet text-danger"></i>

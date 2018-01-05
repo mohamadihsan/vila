@@ -165,7 +165,7 @@
 
         $('#mytable').DataTable({
                     "bProcessing": true,
-                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_persediaan.php' ?>",
+                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_persediaan.php?status=keluar' ?>",
                     "deferRender": true,
                     "select": true,
                     //"dom": 'Bfrtip',
