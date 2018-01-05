@@ -93,6 +93,7 @@ $(document).ready(function(){
             var hasil_peramalan = [];
             var pengeluaran = [];
             var tahun;
+            var id_bahan_makanan;
             var obj = JSON.parse(data);
             $.each(obj, function(key, val) {
                 periode.push(val.periode);
@@ -100,6 +101,7 @@ $(document).ready(function(){
                 pengeluaran.push(val.pengeluaran);
 
                 tahun = val.tahun;
+                id_bahan_makanan = val.id_bahan_makanan;
             })
 
             // for(var i in data) {
@@ -136,7 +138,7 @@ $(document).ready(function(){
                     responsive: true,
                     title:{
                         display:true,
-                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + tahun
+                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + id_bahan_makanan + ' ' + tahun
                     },
                     tooltips: {
                         mode: 'index',

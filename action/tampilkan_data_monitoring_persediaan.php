@@ -53,6 +53,7 @@ $result = mysqli_query($conn, $sql);
 $data = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $periode = $row['tanggal'];
+    $sub_array['id_bahan_makanan']   = $data_id;
     $sub_array['periode']   = $row['tanggal'];
     $sub_array['tahun']   = $data_periode;
     $sub_array['hasil_peramalan']   = $row['hasil_peramalan'];
