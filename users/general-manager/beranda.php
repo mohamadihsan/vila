@@ -73,10 +73,19 @@
     </div>
 </div><!-- /.main-content -->
 
+<?php
+if (isset($_GET['periode'])) {
+    $periode = $_GET['periode'];
+    $id = $_GET['id'];
+    $param = "?periode=".$periode."&id=".$id;
+}else{
+    $param = '';
+}
+?>
 <script>
 $(document).ready(function(){
     $.ajax({
-        url: "http://127.0.0.1/vila/action/tampilkan_data_monitoring_persediaan.php",
+        url: "http://127.0.0.1/vila/action/tampilkan_data_monitoring_persediaan.php<?= $param ?>",
         method: "GET",
         success: function(data) {
             console.log(data);
