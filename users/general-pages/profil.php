@@ -101,7 +101,8 @@
                             <div class="col-xs-12 col-sm-3 center">
                                 <div>
                                     <span class="profile-picture">
-                                        <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="../assets/images/user2.png" />
+                                        <img id="avatar" class="editable img-responsive" alt="Vila Resort" src="../assets/images/<?= $_SESSION['foto_profil'] ?>" />
+                                        <a href=""class="btn btn-xs" title="Ubah Foto Profil" data-toggle="modal" data-target="#ubahGambar" onclick="return ubahGambar('<?= $_SESSION['id_karyawan'] ?>')"><i class="fa fa-picture-o"></i> Ubah</a>
                                     </span>
 
                                     <div class="space-4"></div>
@@ -176,7 +177,31 @@
     </div>
 </div><!-- /.main-content -->
 
+<div class="modal fade" id="ubahGambar" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-picture-o"></i> Ubah Foto Profil</h4>
+            </div>
+            <form method="post" action="../action/foto_profil.php" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="nama_file" value="<?= $_SESSION['foto_profil'] ?>" class="form-control">
+                        <label for="">Pilih Gambar</label>
+                        <input type="file" name="foto" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+
     $(document).ready(function(){
 
         $.ajax({ type: "GET",
@@ -205,6 +230,5 @@
                 $('#nama_pengguna').html(nama_pengguna);
             }
         });
-
     });
 </script>

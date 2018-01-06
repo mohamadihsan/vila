@@ -11,21 +11,22 @@ $log_user       = mysqli_real_escape_string($conn, trim($_POST['log_user']));
 
 if ($log_user == 'pgw') {
     // select data
-    $sql = "SELECT id_karyawan, nama_karyawan, divisi, nama_pengguna 
-            FROM pengguna 
+    $sql = "SELECT id_karyawan, nama_karyawan, divisi, nama_pengguna, foto
+            FROM pengguna
             WHERE nama_pengguna='$nama_pengguna' AND kata_sandi='$kata_sandi'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = mysqli_fetch_assoc($result);
-        
+
         // buat session karyawan
         $_SESSION['id_karyawan'] = $data['id_karyawan'];
         $_SESSION['nama_karyawan'] = $data['nama_karyawan'];
         $_SESSION['nama_lengkap'] = $data['nama_karyawan'];
         $_SESSION['divisi'] = $data['divisi'];
+        $_SESSION['foto_profil'] = $data['foto'];
         $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
         $_SESSION['login'] = TRUE;
-        
+
     }else{
         // jika data tidak ditemukan
         $_SESSION['login'] = FALSE;
@@ -35,21 +36,22 @@ if ($log_user == 'pgw') {
     header('location:../admin/');
 }else if($log_user == 'supp'){
     // select data
-    $sql = "SELECT id_supplier, nama_supplier, nama_pengguna 
-            FROM supplier 
+    $sql = "SELECT id_supplier, nama_supplier, nama_pengguna
+            FROM supplier
             WHERE nama_pengguna='$nama_pengguna' AND kata_sandi='$kata_sandi'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = mysqli_fetch_assoc($result);
-        
+
         // buat session karyawan
         $_SESSION['id_supplier'] = $data['id_supplier'];
         $_SESSION['nama_supplier'] = $data['nama_supplier'];
         $_SESSION['nama_lengkap'] = $data['nama_supplier'];
         $_SESSION['divisi'] = 'supplier';
+        $_SESSION['foto_profil'] = 'user2.png';
         $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
         $_SESSION['login'] = TRUE;
-        
+
     }else{
         // jika data tidak ditemukan
         $_SESSION['login'] = FALSE;
@@ -59,8 +61,8 @@ if ($log_user == 'pgw') {
     header('location:../supplier/');
 }else{
     // select data
-    $sql = "SELECT id_pelanggan, nama_pelanggan, nama_pengguna 
-            FROM pelanggan 
+    $sql = "SELECT id_pelanggan, nama_pelanggan, nama_pengguna
+            FROM pelanggan
             WHERE nama_pengguna='$nama_pengguna' AND kata_sandi='$kata_sandi'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
@@ -83,5 +85,5 @@ if ($log_user == 'pgw') {
     header('location:../');
 }
 
-        
+
 ?>
