@@ -212,21 +212,6 @@
                     ]
         });
 
-        $('#reseptable').DataTable({
-                    "bProcessing": true,
-                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_resep.php' ?>",
-                    "deferRender": true,
-                    "select": true,
-                    //"dom": 'Bfrtip',
-                    //"scrollY": "300",
-                    //"order": [[ 4, "desc" ]],
-                     "aoColumns": [
-                            { mData: 'id_bahan_makanan' } ,
-                            { mData: 'takaran' },
-                            { mData: 'input_id_menu' },
-                            { mData: 'input_id_bahan_makanan' }
-                    ]
-        });
 
         //Callback handler for form submit event
         $(".myform").submit(function(e)
@@ -280,7 +265,6 @@
                     $("#loading").hide();
                     $("#hapus").modal('hide');
                     $('#mytable').DataTable().ajax.reload();
-                    $('#reseptable').DataTable().ajax.reload();
                     $("#tablemenu").hide();
                     $("#selanjutnya").collapse();
             },

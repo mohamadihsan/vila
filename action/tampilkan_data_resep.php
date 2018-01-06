@@ -12,6 +12,8 @@ if($id_bahan_makanan == ''){
     $sub_array['input_id_menu']             = NULL;
     $sub_array['input_id_bahan_makanan']    = NULL;
     $sub_array['takaran']                   = NULL;
+    $sub_array['Satuan']                    = NULL;
+    $sub_array['input_hidden']              = NULL;
 
     $data[] = $sub_array;
 
