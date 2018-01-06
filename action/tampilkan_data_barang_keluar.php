@@ -16,7 +16,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['jumlah']            = $row['jumlah'];
     $sub_array['tanggal']           = $row['tanggal'];
 	$sub_array['action']		    = ' <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_barang_keluar'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';   
-	
+
     $data[] = $sub_array;
 }
 

@@ -3,20 +3,38 @@
 require_once '../config/connection.php';
 
 if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
-    $id_bahan_makanan   = mysqli_escape_string($conn, trim($_POST['id_bahan_makanan']));
+    $ubah   = mysqli_escape_string($conn, trim($_POST['ubah']));
     $barang_keluar      = mysqli_escape_string($conn, trim($_POST['barang_keluar']));
     $harga_satuan       = mysqli_escape_string($conn, trim($_POST['harga_satuan']));
     $tanggal            = mysqli_escape_string($conn, trim($_POST['tanggal']));
 
-    // simpan data
-    $sql = "INSERT INTO persediaan_bahan_makanan (id_bahan_makanan, barang_keluar, harga_satuan, tanggal)
-            VALUES ('$id_bahan_makanan', '$barang_keluar', '$harga_satuan', '$tanggal')";
-    if(mysqli_query($conn, $sql)){
-        $pesan_berhasil = "Data berhasil disimpan";
+    if ($ubah == '') {
+
+        $id_bahan_makanan   = mysqli_escape_string($conn, trim($_POST['id_bahan_makanan']));
+
+        // simpan data
+        $sql = "INSERT INTO persediaan_bahan_makanan (id_bahan_makanan, barang_keluar, harga_satuan, tanggal)
+                VALUES ('$id_bahan_makanan', '$barang_keluar', '$harga_satuan', '$tanggal')";
+        if(mysqli_query($conn, $sql)){
+            $pesan_berhasil = "Data berhasil disimpan";
+        }else{
+            $pesan_gagal = "Data gagal disimpan";
+        }
     }else{
-        $pesan_gagal = "Data gagal disimpan";
+        //ubah data
+        $sql = "UPDATE persediaan_bahan_makanan
+                SET barang_keluar='$barang_keluar', harga_satuan='$harga_satuan'
+                WHERE id_bahan_makanan = '$ubah' AND tanggal = '$tanggal'";
+        if(mysqli_query($conn, $sql)){
+            $pesan_berhasil = "Data berhasil diperbahatui";
+        }else{
+            $pesan_gagal = "Data gagal diperbahatui";
+        }
     }
+
 }else if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
+
+    $id_bahan_makanan   = mysqli_escape_string($conn, trim($_POST['id_bahan_makanan']));
     $tanggal    = mysqli_escape_string($conn, trim($_POST['tanggal']));
 
     // hapus data

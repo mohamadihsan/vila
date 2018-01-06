@@ -42,7 +42,8 @@
                                     <tr>
                                         <td width="15%">Barang</td>
                                         <td>
-                                            <select name="id_bahan_makanan" class="form-control" required>
+                                            <input type="hidden" name="ubah" value="">
+                                            <select name="id_bahan_makanan" class="form-control" id="id_bahan_makanan" required>
                                                 <?php
                                                 // retrieve data dari API
                                                 $file = file_get_contents($url_api."tampilkan_data_bahan_makanan.php");
@@ -62,15 +63,15 @@
                                     </tr>
                                     <tr>
                                         <td width="15%">Qty Barang Masuk</td>
-                                        <td><input type="number" name="barang_masuk" value="0" class="form-control" placeholder="" required></td>
+                                        <td><input type="number" name="barang_masuk" value="1" min="1" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Harga satuan</td>
-                                        <td><input type="number" name="harga_satuan" value="0" class="form-control" placeholder="" required></td>
+                                        <td><input type="number" name="harga_satuan" value="" min="0" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Tanggal</td>
-                                        <td><input type="date" name="tanggal" value="0" class="form-control" placeholder="" required></td>
+                                        <td><input type="date" name="tanggal" id="tanggal" value="0" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -108,8 +109,8 @@
                                     <th width="10%" class="text-left">Qty Barang</th>
                                     <th width="10%" class="text-left">Satuan</th>
                                     <th width="10%" class="text-left">Harga Satuan</th>
-                                    <th width="15%" class="text-left">Tanggal</th>
-                                    <th width="7%" class="text-center"></th>
+                                    <th width="10%" class="text-left">Tanggal</th>
+                                    <th width="13%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -146,6 +147,7 @@
 
 <script>
     function ubah(id_bahan_makanan, barang_masuk, barang_keluar, harga_satuan, tanggal){
+        $('.well input[name=ubah]').val(id_bahan_makanan);
         $('.well select[name=id_bahan_makanan]').val(id_bahan_makanan);
         $('.well input[name=id_bahan_makanan_lama]').val(id_bahan_makanan);
         $('.well input[name=barang_masuk]').val(barang_masuk);
@@ -153,6 +155,8 @@
         $('.well input[name=harga_satuan]').val(harga_satuan);
         $('.well input[name=tanggal]').val(tanggal);
         $('.well input[name=tanggal_lama]').val(tanggal);
+        $('#tanggal').prop('readonly', true);
+        $('#id_bahan_makanan').prop('disabled', true);
     }
 
     function hapus(id_bahan_makanan, tanggal){
