@@ -6,7 +6,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="./">Beranda</a>
                 </li>
-                <li class="active">Pemesanan Bahan Makanan</li>
+                <li class="active">Kebutuhan Bahan Makanan</li>
             </ul><!-- /.breadcrumb -->
         </div>
 
@@ -14,10 +14,10 @@
 
             <div class="page-header">
                 <h1>
-                    Pemesanan Bahan Makanan
+                    Kebutuhan Bahan Makanan
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
-                        Pengolahan Data
+                        Daftar Kebutuhan
                     </small>
                 </h1>
             </div><!-- /.page-header -->
@@ -108,7 +108,7 @@
                             <?php
                             if ($json['jumlahRecord'] == 1 AND $json['data'][0]['id_bahan_makanan'] == '') {
                                 ?>
-                                <h5 class="text-danger"><i class="fa fa-warning"></i> Data Kebutuhan Bahan Makanan tidak dapat ditentukan, Silahan lakukan proses peramalan terlebih dahulu!</h5>
+                                <h5 class="text-danger"><i class="fa fa-warning"></i> Data Kebutuhan Bahan Makanan tidak dapat ditentukan, Silahkan lakukan proses peramalan terlebih dahulu!</h5>
                                 <?php
                             }else{
                                 ?>
@@ -116,7 +116,7 @@
                                     <caption><b>Kebutuhan Bahan Makanan:</b></caption>
                                     <tr>
                                         <th width="30%">Nama Bahan Makanan</th>
-                                        <th width="70%">Jml Pemesanan</th>
+                                        <th width="70%">Jml Kebutuhan</th>
                                     </tr>
                                     <?php
                                     while ($i < count($json['data'])) {
