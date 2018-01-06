@@ -94,7 +94,8 @@
 
                         ?>
                         <div class="clearfix">
-                            <div class="pull-right tableTools-container"></div>
+                            <div class="pull-right tableTools-container">
+                                <a href="../action/export_excel.php?nama=<?= $_GET['nama'] ?>&bulan=<?= $_GET['bulan'] ?>&tahun=<?= $_GET['tahun'] ?>" title="Export Excel"><i class="fa fa-print fa-2x"></i></a></div>
                         </div>
                         <div class="table-header">
                             Hasil Filter:
