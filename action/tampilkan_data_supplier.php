@@ -17,7 +17,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['no_telp']           = $row['no_telp'];
     $sub_array['email']             = $row['email'];
     $sub_array['waktu_pengiriman']  = $row['waktu_pengiriman'].' hari';
-    $sub_array['action']	        = ' <a href="index.php?menu=barang&id_supplier=\''.$row['id_supplier'].'\'" class="btn btn-default btn-xs"><i class="ace-icon fa fa-cubes bigger-120"></i> Barang </a>
+    $sub_array['action']	        = ' <a href="index.php?menu=barang&id='.$row['id_supplier'].'&nama='.$row['nama_supplier'].'" class="btn btn-default btn-xs"><i class="ace-icon fa fa-cubes bigger-120"></i> Barang </a>
                                         <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_supplier'].'\',\''.$row['nama_supplier'].'\',\''.$row['alamat'].'\',\''.$row['no_telp'].'\',\''.$row['email'].'\',\''.$row['waktu_pengiriman'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
                                         <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_supplier'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
 

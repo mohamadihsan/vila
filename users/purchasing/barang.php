@@ -38,6 +38,13 @@
                                 <table class="table table-renponsive">
                                     <caption>Masukkan Data Barang:</caption>
                                     <tr>
+                                        <td width="15%">Supplier</td>
+                                        <td>
+                                            <input type="hidden" name="id_supplier" value="<?= $_GET['id'] ?>" class="form-control" placeholder="" required>
+                                            <input type="text" name="nama_supplier" value="<?= $_GET['id'].' - '.$_GET['nama'] ?>" class="form-control" placeholder="" disabled>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td width="15%">Barang</td>
                                         <td>
                                         <select name="id_bahan_makanan" class="form-control" required>
@@ -62,14 +69,6 @@
                                     <tr>
                                         <td width="15%">Harga</td>
                                         <td><input type="number" name="harga" value="" class="form-control" placeholder="" required></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15%">Minimal Order</td>
-                                        <td><input type="number" name="minimal_order" value="" class="form-control" placeholder="" required></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15%">Kelipatan Order</td>
-                                        <td><input type="number" name="kelipatan_order" value="" class="form-control" placeholder="" required></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -102,11 +101,11 @@
                             <thead>
                                 <tr class="">
                                     <th width="7%" class="text-center">No</th>
-                                    <th width="15%" class="text-left">ID</th>
-                                    <th width="15%" class="text-left">Nama</th>
+                                    <th width="10%" class="text-left">ID</th>
+                                    <th width="25%" class="text-left">Nama</th>
                                     <th width="10%" class="text-left">Satuan</th>
-                                    <th width="12%" class="text-center">Harga</th>
-                                    <th width="14%" class="text-center"></th>
+                                    <th width="10%" class="text-center">Harga</th>
+                                    <th width="10%" class="text-center"></th>
                                 </tr>
                             </thead>
                         </table>
@@ -128,6 +127,7 @@
             </div>
             <form method="post" action="../action/barang_supplier.php" class="myform">
                 <div class="modal-body">
+                    <input type="hidden" name="id_supplier" value="<?= $_GET['id'] ?>" class="form-control" placeholder="" required>
                     <input type="hidden" name="hapus" value="1" readonly>
                     <input type="hidden" name="id_bahan_makanan" readonly>
                     <p>Apakah anda akan menghapus data ini?</p>
@@ -155,7 +155,7 @@
 
         $('#mytable').DataTable({
                     "bProcessing": true,
-                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_barang_supplier.php?id='.$_GET['id_supplier'] ?>",
+                    "sAjaxSource": "<?php echo $base_url.'action/tampilkan_data_barang_supplier.php?id='.$_GET['id'] ?>",
                     "deferRender": true,
                     "select": true,
                     //"dom": 'Bfrtip',

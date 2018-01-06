@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['nama_bahan_makanan']   = $row['nama_bahan_makanan'];
     $sub_array['satuan']            = $row['satuan'];
     $sub_array['harga']             = Rupiah($row['harga']);
-	$sub_array['action']		    = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_bahan_makanan'].'\',\''.$row['harga'].'\',\''.$row['minimal_order'].'\',\''.$row['kelipatan_order'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
+	$sub_array['action']		    = ' <button type="button" class="btn btn-warning btn-xs" data-toggle="collapse" data-target=".tampil" onclick="return ubah(\''.$row['id_bahan_makanan'].'\',\''.$row['harga'].'\')"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i> Ubah</button>
                                         <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus" onclick="return hapus(\''.$row['id_bahan_makanan'].'\')"><i class="ace-icon fa fa-trash-o bigger-120"></i> Hapus</button>';
 
     $data[] = $sub_array;
