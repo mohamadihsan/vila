@@ -121,7 +121,7 @@ $(document).ready(function(){
                     responsive: true,
                     title:{
                         display:true,
-                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + id_bahan_makanan + ' ' + tahun
+                        text:'Grafik Pembelian Bahan Makanan ' + id_bahan_makanan + ' ' + tahun
                     },
                     tooltips: {
                         mode: 'index',
