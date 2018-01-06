@@ -102,7 +102,7 @@
                                 <div>
                                     <span class="profile-picture">
                                         <img id="avatar" class="editable img-responsive" alt="Vila Resort" src="../assets/images/<?= $_SESSION['foto_profil'] ?>" />
-                                        <a href=""class="btn btn-xs" title="Ubah Foto Profil" data-toggle="modal" data-target="#ubahGambar" onclick="return ubahGambar('<?= $_SESSION['id_karyawan'] ?>')"><i class="fa fa-picture-o"></i> Ubah</a>
+                                        <a href=""class="btn btn-xs" title="Ubah Foto Profil" data-toggle="modal" data-target="#ubahGambar" onclick="return ubahGambar('<?= $_SESSION['id_karyawan'] ?>','<?= $_SESSION['foto_profil'] ?>')"><i class="fa fa-picture-o"></i> Ubah</a>
                                     </span>
 
                                     <div class="space-4"></div>
@@ -177,6 +177,8 @@
     </div>
 </div><!-- /.main-content -->
 
+
+<!-- Modal Ubah Gambar -->
 <div class="modal fade" id="ubahGambar" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -184,12 +186,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><i class="fa fa-picture-o"></i> Ubah Foto Profil</h4>
             </div>
-            <form method="post" action="../action/foto_profil.php" enctype="multipart/form-data">
+            <form method="post" action="../action/foto_profil.php" class="myform">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" name="nama_file" value="<?= $_SESSION['foto_profil'] ?>" class="form-control">
-                        <label for="">Pilih Gambar</label>
-                        <input type="file" name="foto" class="form-control" required>
+                        <input type="hidden" name="id_karyawan" readonly>
+                        <input type="hidden" name="nama_file" value="" class="form-control">
+                        <label for="">Pilih Foto</label>
+                        <input type="file" name="foto_profil" value="" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -202,7 +205,40 @@
 
 <script>
 
+    function ubahGambar(id_karyawan, foto_profil){
+        $('.modal-body input[name=id_karyawan]').val(id_karyawan);
+        $('.modal-body input[name=nama_file]').val(foto_profil);
+    }
+
     $(document).ready(function(){
+
+        $(".myform").submit(function(e)
+        {
+
+        var formObj = $(this);
+        var formURL = formObj.attr("action");
+        var formData = new FormData(this);
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data:  formData,
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function (){
+                       $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
+                       },
+            success: function(data, textStatus, jqXHR){
+                    $("#result").html(data);
+                    $("#loading").hide();
+                    $("#ubahGambar").modal('hide');
+            },
+                error: function(jqXHR, textStatus, errorThrown){
+            }
+        });
+            e.preventDefault(); //Prevent Default action.
+            e.unbind();
+        });
 
         $.ajax({ type: "GET",
             url: "../action/tampilkan_data_pengguna.php?id=<?= $_SESSION['id_karyawan'] ?>",

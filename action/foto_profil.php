@@ -3,13 +3,13 @@
 require_once '../config/connection.php';
 session_start();
 
-$id_karyawan          = $_SESSION['id_karyawan'];
+$id_karyawan      = mysqli_escape_string($conn, trim($_POST['id_karyawan']));
 $nama_file        = mysqli_escape_string($conn, trim($_POST['nama_file']));
-$imgFile = $_FILES['foto']['name'];
-$tmp_dir = $_FILES['foto']['tmp_name'];
-$imgSize = $_FILES['foto']['size'];
+$imgFile = $_FILES['foto_profil']['name'];
+$tmp_dir = $_FILES['foto_profil']['tmp_name'];
+$imgSize = $_FILES['foto_profil']['size'];
 
-if($_FILES['foto']['name']==''){
+if($_FILES['foto_profil']['name']==''){
     $valid = false;
 }else{
     $valid = true;
