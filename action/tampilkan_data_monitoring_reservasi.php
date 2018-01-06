@@ -2,49 +2,39 @@
 // buka koneksi
 require_once '../config/connection.php';
 
-//set default bahan baku
-$sql = "SELECT id_bahan_makanan FROM bahan_makanan LIMIT 1";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($result);
-$data_id = $row['id_bahan_makanan'];
-
-$sql = "SELECT DATE_FORMAT(tanggal_pembelian, '%Y') as periode FROM pembelian_bahan_makanan ORDER BY tanggal_pembelian DESC LIMIT 1";
+$sql = "SELECT DATE_FORMAT(tanggal_reservasi, '%Y') as periode FROM reservasi ORDER BY tanggal_reservasi DESC LIMIT 1";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $data_periode = $row['periode'];
 
 // inisialisasi
 $periode            = isset($_GET['periode']) ? $_GET['periode']: $data_periode;
-$id_bahan_makanan   = isset($_GET['id']) ? $_GET['id']: $data_id;
 
 // sql statement
 $sql = "SELECT
         	x.tanggal,
-        	x.jumlah_pembelian
+        	x.jumlah_orang
         FROM
         	(
         		SELECT
-        			DATE_FORMAT(pbm.tanggal_pembelian, '%m') AS tanggal,
-        			SUM(dpbm.jumlah_pembelian) AS jumlah_pembelian
+        			DATE_FORMAT(r.tanggal_reservasi, '%m') AS tanggal,
+        			SUM(r.jumlah_orang) AS jumlah_orang
         		FROM
-        			pembelian_bahan_makanan pbm
-        		LEFT JOIN detail_pembelian_bahan_makanan dpbm ON dpbm.nomor_faktur = pbm.nomor_faktur
+        			reservasi r
         		WHERE
-        			DATE_FORMAT(pbm.tanggal_pembelian, '%Y') = '$periode'
-        		AND dpbm.id_bahan_makanan = '$id_bahan_makanan'
+        			DATE_FORMAT(r.tanggal_reservasi, '%Y') = '$periode'
         		GROUP BY
         			1
         	) AS x
         ORDER BY
-        	tanggal ASC";
+        	tanggal";
 $result = mysqli_query($conn, $sql);
 $data = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $periode = $row['tanggal'];
-    $sub_array['id_bahan_makanan']   = $data_id;
     $sub_array['periode']   = $row['tanggal'];
     $sub_array['tahun']   = $data_periode;
-    $sub_array['jumlah_pembelian']   = $row['jumlah_pembelian'];
+    $sub_array['jumlah_orang']   = $row['jumlah_orang'];
 
     if ($periode=='01') {
         $sub_array['periode'] = 'Januari';
