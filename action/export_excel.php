@@ -61,7 +61,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
         </tr>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            $no                    = $no++;
+            $nomor                    = $no++;
             $id_bahan_makanan      = $row['id_bahan_makanan'];
             $nama_bahan_makanan    = ucwords($row['nama_bahan_makanan']);
             $satuan                = $row['satuan'];
@@ -69,7 +69,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
             $periode               = $row['periode'];
             ?>
             <tr>
-                <td><?= $no ?></td>
+                <td><?= $nomor ?></td>
                 <td><?= $id_bahan_makanan ?></td>
                 <td><?= $nama_bahan_makanan ?></td>
                 <td><?= $jml_pemakaian ?></td>
@@ -133,7 +133,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
         </tr>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            $no                     = $no++;
+            $nomor                     = $no++;
             $nomor_faktur           = $row['nomor_faktur'];
             $id_bahan_makanan       = $row['id_bahan_makanan'];
             $nama_bahan_makanan     = ucwords($row['nama_bahan_makanan']);
@@ -145,7 +145,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
             $periode                = $row['periode'];
             ?>
             <tr>
-                <td><?= $no ?></td>
+                <td><?= $nomor ?></td>
                 <td><?= $nomor_faktur ?></td>
                 <td><?= $id_bahan_makanan ?></td>
                 <td><?= $nama_bahan_makanan ?></td>
@@ -216,7 +216,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
         </tr>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            $no                    = $no++;
+            $nomor                    = $no++;
             $id_bahan_makanan      = $row['id_bahan_makanan'];
             $nama_bahan_makanan    = ucwords($row['nama_bahan_makanan']);
             $satuan                = $row['satuan'];
@@ -225,7 +225,7 @@ if ($nama_laporan == 'pemakaian-bahan') {
             $periode               = $row['tanggal'];
             ?>
             <tr>
-                <td><?= $no ?></td>
+                <td><?= $nomor ?></td>
                 <td><?= $id_bahan_makanan ?></td>
                 <td><?= $nama_bahan_makanan ?></td>
                 <td><?= $barang_masuk ?></td>
