@@ -94,6 +94,41 @@ function buat_kode_menu($id_terakhir_tersimpan, $init)
     return $id_baru;
 }
 
+function buat_kode_tamu($id_terakhir_tersimpan, $init)
+{
+    // buat ID baru
+    $kode = str_split($id_terakhir_tersimpan);
+
+    // cek kode
+    if($kode[3] == '0' && $kode[4] == '0'){
+        $urutan = (int)$kode[5] + 1;
+        if($urutan < 10){
+            $id_baru =  $init.'00'.$urutan;
+        }else if($urutan >= 10 && $urutan < 100){
+            $id_baru = $init.'0'.$urutan;
+        }else{
+            $id_baru = $init.''.$urutan;
+        }
+
+    }else if($kode[3] == '0' && (int)$kode[4] > 0){
+        $urutan = $kode[4].''.$kode[5];
+        $urutan = (int)$urutan + 1;
+        if($urutan < 100){
+            $id_baru =  $init.'0'.$urutan;
+        }else if($urutan >= 100 && $urutan < 1000){
+            $id_baru = $init.''.$urutan;
+        }
+    }else if((int)$kode[3] > 0){
+        $urutan = $kode[2].''.$kode[4].''.$kode[5];
+        $urutan = (int)$urutan + 1;
+        if($urutan < 1000){
+            $id_baru =  $init.''.$urutan;
+        }
+    }
+
+    return $id_baru;
+}
+
 function buat_kode_user($string, $init, $id_terakhir_tersimpan)
 {
     // buat ID baru

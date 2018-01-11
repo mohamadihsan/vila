@@ -11,10 +11,10 @@
         </div>
 
         <div class="page-content">
-            
+
             <div class="page-header">
                 <h1>
-                    Tamu 
+                    Tamu
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -27,13 +27,14 @@
                     <!-- PAGE CONTENT BEGINS -->
 
                     <button data-toggle="collapse" data-target=".tampil" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Form</button>
-                    
+
                     <div id="" class="collapse tampil">
                         <div class="well">
                             <form action="../action/tamu.php" method="post" class="myform">
-                                
+
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
+                                <input type="hidden" name="id_tamu_lama" value="0" class="form-control" placeholder="" readonly>
 
                                 <table class="table table-renponsive">
                                     <caption>Masukkan Data Tamu:</caption>
@@ -62,10 +63,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </form>    
+                            </form>
                         </div>
                     </div>
-                    
+
                     <!-- loading -->
                     <center><div id="loading"></div></center>
                     <div id="result"></div>
@@ -99,9 +100,32 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
-            
+
+<!-- Modal Hapus -->
+<div class="modal fade" id="hapus" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
+            </div>
+            <form method="post" action="../action/tamu.php" class="myform">
+                <div class="modal-body">
+                    <input type="hidden" name="hapus" value="1" readonly>
+                    <input type="hidden" name="id_tamu" readonly>
+                    <p>Apakah anda akan menghapus data ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     function ubah(id_tamu, nama_tamu, no_telp, email){
+        $('.well input[name=id_tamu_lama]').val(id_tamu);
         $('.well input[name=id_tamu]').val(id_tamu);
         $('.well input[name=nama_tamu]').val(nama_tamu);
         $('.well input[name=no_telp]').val(no_telp);
@@ -112,7 +136,7 @@
         $('.modal-body input[name=id_tamu]').val(id_tamu);
     }
 
-    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
     $(document).ready(function(){
 
         $('#mytable').DataTable({
@@ -138,9 +162,33 @@
         });
 
     });
+
+    $(".myform").submit(function(e)
+    {
+
+    var formObj = $(this);
+    var formURL = formObj.attr("action");
+    var formData = new FormData(this);
+    $.ajax({
+        url: formURL,
+        type: 'POST',
+        data:  formData,
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function (){
+                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
+                   },
+        success: function(data, textStatus, jqXHR){
+                $("#result").html(data);
+                $("#loading").hide();
+                $("#hapus").modal('hide');
+                $('#mytable').DataTable().ajax.reload();
+        },
+            error: function(jqXHR, textStatus, errorThrown){
+        }
+    });
+        e.preventDefault(); //Prevent Default action.
+        e.unbind();
+    });
 </script>
-
-
-
-
-

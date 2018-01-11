@@ -19,7 +19,7 @@
 		<link rel="stylesheet" href="../assets/css/ace.min.css" />
 
 		<link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
-		
+
 		<script src="../assets/js/jquery-2.1.4.min.js"></script>
 		<!-- gritter notification -->
 		<link rel="stylesheet" href="../assets/css/jquery.gritter.min.css" />
@@ -32,10 +32,11 @@
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="login-container">
 							<div class="center">
-								<h1>
-									<i class="ace-icon fa fa-home blue"></i>
-									<span class="green">Vila</span>
-									<span class="white" id="id-text2">Air <font class="red">Natural</font> Resort</span>
+								<h1 style="font-family: "Bookman Old Style", serif;">
+									<!-- <i class="ace-icon fa fa-home blue"></i> -->
+									<!-- <span class="green">Vila</span>
+									<span class="white" id="id-text2">Air <font class="red">Natural</font> Resort</span> -->
+									<!-- <span class="white"> Vila Air Natural Resort</span> -->
 								</h1>
 								<!--<h4 class="blue" id="id-company-text">&copy; Company Name</h4>-->
 							</div>
@@ -46,10 +47,11 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
+											<img src="../assets/images/logo.png" alt="logo" height="100px" class="" style="background-color:#2abe1d;margin-top:-16px;margin-left:-20px">
+											<h1 class="header black bigger">
 												<i class="ace-icon fa fa-lock green"></i>
 												Login
-											</h4>
+											</h1>
 
 											<div class="space-6"></div>
 
@@ -76,7 +78,7 @@
 
 													<div class="clearfix">
 
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="submit" class="width-35 pull-right" style="background-color:#2abe1d;color:#FFF">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 														</button>
@@ -167,7 +169,7 @@
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		
+
 		<script src="../assets/js/bootstrap.min.js"></script>
 		<script src="../assets/js/jquery-ui.custom.min.js"></script>
 
@@ -176,26 +178,26 @@
 		<script src="../assets/js/jquery.gritter.min.js"></script>
 
 		<script>
-			
-			// LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+
+			// LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
 			$(document).ready(function(){
 
 				//Callback handler for form submit event
 				$(".myform").submit(function(e)
 				{
-			
+
 				var formObj = $(this);
 				var formURL = formObj.attr("action");
 				var formData = new FormData(this);
 				$.ajax({
 					url: formURL,
 					type: 'POST',
-					data:  formData,        
+					data:  formData,
 					contentType: false,
 					cache: false,
 					processData:false,
 					beforeSend: function (){
-							$("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");                   
+							$("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
 							},
 					success: function(data, textStatus, jqXHR){
 							$("#result").html(data);
@@ -204,11 +206,11 @@
 							$('#mytable').DataTable().ajax.reload();
 					},
 						error: function(jqXHR, textStatus, errorThrown){
-				}         
+				}
 				});
 					e.preventDefault(); //Prevent Default action.
 					e.unbind();
-				});    
+				});
 
 			});
 		</script>
@@ -223,33 +225,33 @@
 				$(target).addClass('visible');//show target
 			 });
 			});
-			
-			
-			
+
+
+
 			//you don't need this, just used for changing background
 			jQuery(function($) {
 			 $('#btn-login-dark').on('click', function(e) {
 				$('body').attr('class', 'login-layout');
 				$('#id-text2').attr('class', 'white');
 				$('#id-company-text').attr('class', 'blue');
-				
+
 				e.preventDefault();
 			 });
 			 $('#btn-login-light').on('click', function(e) {
 				$('body').attr('class', 'login-layout light-login');
 				$('#id-text2').attr('class', 'grey');
 				$('#id-company-text').attr('class', 'blue');
-				
+
 				e.preventDefault();
 			 });
 			 $('#btn-login-blur').on('click', function(e) {
 				$('body').attr('class', 'login-layout blur-login');
 				$('#id-text2').attr('class', 'white');
 				$('#id-company-text').attr('class', 'light-blue');
-				
+
 				e.preventDefault();
 			 });
-			 
+
 			});
 		</script>
 	</body>
@@ -277,5 +279,5 @@
 		</script>
 		<?php
 		session_unset($_SESSION['login']);
-	} 
+	}
 ?>
