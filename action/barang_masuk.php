@@ -33,10 +33,11 @@ if(mysqli_escape_string($conn, trim($_POST['hapus']))=='0'){
 }else if(mysqli_escape_string($conn, trim($_POST['hapus']))=='1'){
     $id_bahan_makanan   = mysqli_escape_string($conn, trim($_POST['id_bahan_makanan']));
     $tanggal    = mysqli_escape_string($conn, trim($_POST['tanggal']));
+    $jml = 0;
 
     // hapus data
     $sql = "DELETE FROM persediaan_bahan_makanan
-            WHERE id_bahan_makanan='$id_bahan_makanan' AND tanggal='$tanggal'";
+            WHERE id_bahan_makanan='$id_bahan_makanan' AND tanggal='$tanggal' AND barang_keluar='$jml'";
     if(mysqli_query($conn, $sql)){
         $pesan_berhasil = "Data berhasil dihapus";
     }else{

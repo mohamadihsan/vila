@@ -133,6 +133,7 @@
             <form method="post" action="../action/persediaan.php" class="myform">
                 <div class="modal-body">
                     <input type="hidden" name="hapus" value="1" readonly>
+                    <input type="hidden" name="barang" value="keluar" readonly>
                     <input type="hidden" name="id_bahan_makanan" readonly>
                     <input type="hidden" name="tanggal" readonly>
                     <p>Apakah anda akan menghapus data ini?</p>
