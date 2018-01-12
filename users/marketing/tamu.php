@@ -34,7 +34,7 @@
 
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
-                                <input type="hidden" name="id_tamu_lama" value="0" class="form-control" placeholder="" readonly>
+                                <input type="hidden" name="id_tamu_lama" value="" class="form-control" placeholder="" readonly>
 
                                 <table class="table table-renponsive">
                                     <caption>Masukkan Data Tamu:</caption>
