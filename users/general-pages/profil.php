@@ -102,7 +102,7 @@
                                 <div>
                                     <span class="profile-picture">
                                         <img id="avatar" class="editable img-responsive" alt="Vila Resort" src="../assets/images/<?= $_SESSION['foto_profil'] ?>" />
-                                        <a href=""class="btn btn-xs" title="Ubah Foto Profil" data-toggle="modal" data-target="#ubahGambar" onclick="return ubahGambar('<?= $_SESSION['id_karyawan'] ?>','<?= $_SESSION['foto_profil'] ?>')"><i class="fa fa-picture-o"></i> Ubah</a>
+                                        <!-- <a href=""class="btn btn-xs" title="Ubah Foto Profil" data-toggle="modal" data-target="#ubahGambar" onclick="return ubahGambar('<?= $_SESSION['id_karyawan'] ?>','<?= $_SESSION['foto_profil'] ?>')"><i class="fa fa-picture-o"></i> Ubah</a> -->
                                     </span>
 
                                     <div class="space-4"></div>
