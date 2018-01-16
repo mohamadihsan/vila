@@ -58,6 +58,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     $sub_array['tahun']   = $data_periode;
     $sub_array['hasil_peramalan']   = $row['hasil_peramalan'];
     $sub_array['pengeluaran']   = $row['barang_keluar'];
+    $per_minggu = ceil($row['hasil_peramalan']/4);
+
+    $sub_array['peramalan_per_minggu'] = $per_minggu;
 
     if ($periode=='01') {
         $sub_array['periode'] = 'Januari';

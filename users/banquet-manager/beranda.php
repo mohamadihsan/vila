@@ -135,6 +135,7 @@ $(document).ready(function(){
             console.log(data);
             var periode = [];
             var hasil_peramalan = [];
+            var peramalan_per_minggu = [];
             var pengeluaran = [];
             var tahun;
             var id_bahan_makanan;
@@ -142,6 +143,7 @@ $(document).ready(function(){
             $.each(obj, function(key, val) {
                 periode.push(val.periode);
                 hasil_peramalan.push(val.hasil_peramalan);
+                peramalan_per_minggu.push(val.peramalan_per_minggu);
                 pengeluaran.push(val.pengeluaran);
 
                 tahun = val.tahun;
@@ -165,11 +167,18 @@ $(document).ready(function(){
                         data: pengeluaran
                     },
                     {
-                        label: 'Peramalan',
+                        label: 'Peramalan Per Bulan',
                         backgroundColor: window.chartColors.blue,
                         borderColor: window.chartColors.blue,
                         fill: false,
                         data: hasil_peramalan
+                    },
+                    {
+                        label: 'Peramalan Per Minggu',
+                        backgroundColor: window.chartColors.yellow,
+                        borderColor: window.chartColors.yellow,
+                        fill: false,
+                        data: peramalan_per_minggu
                     },
                 ],
             };
