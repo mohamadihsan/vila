@@ -114,8 +114,9 @@
 												Masukkan email anda
 											</p>
 
-											<form method="post" action="../action/lupa_kata_sandi.php" class="myform">
+											<form method="post" action="../action/lupa_kata_sandi.php" class="">
 												<fieldset>
+													<input type="hidden" name="log_user" value="pgw" placeholder="">
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="email" class="form-control" name="email" placeholder="Email" required/>
@@ -279,5 +280,50 @@
 		</script>
 		<?php
 		session_unset($_SESSION['login']);
+	}
+
+	$pesan_berhasil = isset($_SESSION['pesan_berhasil'])? $_SESSION['pesan_berhasil'] : false;
+	$pesan_gagal = isset($_SESSION['pesan_gagal'])? $_SESSION['pesan_gagal'] : false;
+
+	if($pesan_berhasil!=false) {
+		 ?>
+	    <script type="text/javascript">
+		    $(function(){
+	            $.gritter.add({
+	                // (string | mandatory) the heading of the notification
+	                title: 'Berhasil!',
+	                // (string | mandatory) the text inside the notification
+	                text: '<?= $pesan_berhasil ?>',
+	                // (string | optional) the image to display on the left
+	                image: '../assets/images/berhasil.png',
+	                // (bool | optional) if you want it to fade out on its own or just sit there
+	                sticky: false,
+	                // (int | optional) the time you want it to be alive for before fading out
+	                time: ''
+		        });
+	        });
+		</script>
+		<?php
+		session_unset($_SESSION['pesan_berhasil']);
+	}else if($pesan_gagal!=false) {
+		 ?>
+	    <script type="text/javascript">
+		    $(function(){
+	            $.gritter.add({
+	                // (string | mandatory) the heading of the notification
+	                title: 'Gagal!',
+	                // (string | mandatory) the text inside the notification
+	                text: '<?= $pesan_gagal ?>',
+	                // (string | optional) the image to display on the left
+	                image: '../assets/images/gagal.png',
+	                // (bool | optional) if you want it to fade out on its own or just sit there
+	                sticky: false,
+	                // (int | optional) the time you want it to be alive for before fading out
+	                time: ''
+		        });
+	        });
+		</script>
+		<?php
+		session_unset($_SESSION['pesan_gagal']);
 	}
 ?>

@@ -1,9 +1,11 @@
 <?php
+session_start();
 // buka koneksi
 require_once '../config/connection.php';
 
 // retrieve data post
 $email       = mysqli_real_escape_string($conn, trim($_POST['email']));
+$log_user       = mysqli_real_escape_string($conn, trim($_POST['log_user']));
 
 if ($log_user == 'pgw') {
     // select data
@@ -24,7 +26,7 @@ if ($log_user == 'pgw') {
         $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 
         // More headers
-        $headers .= 'From: syarifah.fatwa@yahoo.co.id <noreply@syarifah.fatwa@yahoo.co.id>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
+        $headers .= 'From: admin@vilaairnaturalresort.com <noreply@admin@vilaairnaturalresort.com>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
         $headers .= 'Cc: admin@vilaairnaturalresort.com' . "\r\n";
 
         $kirim = @mail($email,$subject,$message,$headers);
@@ -36,18 +38,18 @@ if ($log_user == 'pgw') {
             //reset kata sandi
             $sql = "UPDATE pengguna SET kata_sandi='$kata_sandi' WHERE email='$email'";
             if (mysqli_query($conn, $sql)) {
-                $pesan_berhasil = "Kata sandi telah dikirim melalui email";
+                $_SESSION['pesan_berhasil'] = "Kata sandi telah dikirim melalui email";
             }else{
-                $pesan_gagal = "Gagal untuk mereset kata sandi";
+                $_SESSION['pesan_gagal'] = "Gagal untuk mereset kata sandi";
             }
 
         }else{
-            $pesan_gagal = "Gagal mengirim data ke email";
+            $_SESSION['pesan_gagal'] = "Gagal mengirim data ke email";
         }
 
     }else{
         // jika data tidak ditemukan
-        $pesan_gagal = "User tidak terdaftar!";
+        $_SESSION['pesan_gagal'] = "User tidak terdaftar!";
     }
 
 }else if ($log_user == 'supp') {
@@ -69,7 +71,7 @@ if ($log_user == 'pgw') {
         $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 
         // More headers
-        $headers .= 'From: syarifah.fatwa@yahoo.co.id <noreply@syarifah.fatwa@yahoo.co.id>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
+        $headers .= 'From: admin@vilaairnaturalresort.com <noreply@admin@vilaairnaturalresort.com>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
         $headers .= 'Cc: admin@vilaairnaturalresort.com' . "\r\n";
 
         $kirim = @mail($email,$subject,$message,$headers);
@@ -81,18 +83,18 @@ if ($log_user == 'pgw') {
             //reset kata sandi
             $sql = "UPDATE supplier SET kata_sandi='$kata_sandi' WHERE email='$email'";
             if (mysqli_query($conn, $sql)) {
-                $pesan_berhasil = "Kata sandi telah dikirim melalui email";
+                $_SESSION['pesan_berhasil'] = "Kata sandi telah dikirim melalui email";
             }else{
-                $pesan_gagal = "Gagal untuk mereset kata sandi";
+                $_SESSION['pesan_gagal'] = "Gagal untuk mereset kata sandi";
             }
 
         }else{
-            $pesan_gagal = "Gagal mengirim data ke email";
+            $_SESSION['pesan_gagal'] = "Gagal mengirim data ke email";
         }
 
     }else{
         // jika data tidak ditemukan
-        $pesan_gagal = "User tidak terdaftar!";
+        $_SESSION['pesan_gagal'] = "User tidak terdaftar!";
     }
 }else{
     // select data
@@ -113,7 +115,7 @@ if ($log_user == 'pgw') {
         $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 
         // More headers
-        $headers .= 'From: syarifah.fatwa@yahoo.co.id <noreply@syarifah.fatwa@yahoo.co.id>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
+        $headers .= 'From: admin@vilaairnaturalresort.com <noreply@admin@vilaairnaturalresort.com>'."\r\n" . 'Reply-To: '.$username.' <'.$email.'>'."\r\n";
         $headers .= 'Cc: admin@vilaairnaturalresort.com' . "\r\n";
 
         $kirim = @mail($email,$subject,$message,$headers);
@@ -125,18 +127,18 @@ if ($log_user == 'pgw') {
             //reset kata sandi
             $sql = "UPDATE pelanggan SET kata_sandi='$kata_sandi' WHERE email='$email'";
             if (mysqli_query($conn, $sql)) {
-                $pesan_berhasil = "Kata sandi telah dikirim melalui email";
+                $_SESSION['pesan_berhasil'] = "Kata sandi telah dikirim melalui email";
             }else{
-                $pesan_gagal = "Gagal untuk mereset kata sandi";
+                $_SESSION['pesan_gagal'] = "Gagal untuk mereset kata sandi";
             }
 
         }else{
-            $pesan_gagal = "Gagal mengirim data ke email";
+            $_SESSION['pesan_gagal'] = "Gagal mengirim data ke email";
         }
 
     }else{
         // jika data tidak ditemukan
-        $pesan_gagal = "User tidak terdaftar!";
+        $_SESSION['pesan_gagal'] = "User tidak terdaftar!";
     }
 }
 
@@ -179,5 +181,9 @@ if (isset($pesan_berhasil)) {
 	</script>
     <?php
 }
+
+
+// arahkan ke route
+header('location:../');
 
 ?>
