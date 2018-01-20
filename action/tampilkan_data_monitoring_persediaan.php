@@ -91,6 +91,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $sub_array;
 }
 
+$data['data'] = count($data);
+
 $results = $data;
 
 echo json_encode($results);

@@ -112,24 +112,79 @@
 
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                    <caption><h5><b>Peramalan Per Minggu </b></h5></caption>
+                    <div style="width:100%;">
+                        <table class="table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Minggu 1</th>
+                                    <th class="text-center">Minggu 2</th>
+                                    <th class="text-center">Minggu 3</th>
+                                    <th class="text-center">Minggu 4</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+
+                                if (isset($_GET['periode'])) {
+                                    $periode = $_GET['periode'];
+                                    $id = $_GET['id'];
+                                    $param = "?periode=".$periode."&id=".$id;
+                                }else{
+                                    $param = '';
+                                }
+
+                                // retrieve data dari API
+                                $file = file_get_contents($url_api."tampilkan_data_monitoring_persediaan.php".$param);
+                                $json = json_decode($file, true);
+                                $i=0;
+                                while ($i < $json['data']) {
+                                    $periode = $json[$i]['periode'];
+                                    $tahun[$i] = $json[$i]['tahun'];
+                                    $peramalan_per_minggu[$i] = $json[$i]['peramalan_per_minggu'];
+                                    $id_bahan_makanan[$i] = $json[$i]['id_bahan_makanan'];
+
+                                    ?>
+                                    <tr>
+                                        <th colspan="4" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?= $peramalan_per_minggu[$i] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?= $peramalan_per_minggu[$i] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?= $peramalan_per_minggu[$i] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?= $peramalan_per_minggu[$i] ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+
             </div><!-- /.row -->
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
 
-<?php
-if (isset($_GET['periode'])) {
-    $periode = $_GET['periode'];
-    $id = $_GET['id'];
-    $param = "?periode=".$periode."&id=".$id;
-}else{
-    $param = '';
-}
-?>
 <script>
 $(document).ready(function(){
     $.ajax({
-        url: "http://127.0.0.1/vila/action/tampilkan_data_monitoring_persediaan.php<?= $param ?>",
+        url: "<?= $url_api ?>tampilkan_data_monitoring_persediaan.php<?= $param ?>",
         method: "GET",
         success: function(data) {
             console.log(data);
