@@ -65,7 +65,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
                     <caption><h5><b>Monitoring persediaan </b></h5></caption>
@@ -266,13 +266,18 @@ $(document).ready(function(){
 
             var ctx = $("#canvas");
 
+            <?php
+            $id = isset($_GET['id']) ? $_GET['id'] : '';
+            $periode = isset($_GET['periode']) ? $_GET['periode'] : '';
+            ?>
             var barGraph = new Chart(ctx, {
                 type: 'line',
                 options: {
                     responsive: true,
                     title:{
                         display:true,
-                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + id_bahan_makanan + ' ' + tahun
+                        // text:'Grafik Pengeluaran dan Peramalan Bahan Makanan ' + id_bahan_makanan + ' ' + tahun
+                        text:'Grafik Pengeluaran dan Peramalan Bahan Makanan <?= $id." ".$periode ?>'
                     },
                     tooltips: {
                         mode: 'index',
