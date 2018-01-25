@@ -65,7 +65,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
                     <caption><h5><b>Monitoring persediaan </b></h5></caption>
@@ -120,7 +120,6 @@
                         <table class="table table-responsive table-bordered">
                             <thead>
                                 <tr>
-                                    <th rowspan="2"></th>
                                     <th class="text-center">Minggu 1</th>
                                     <th class="text-center">Minggu 2</th>
                                     <th class="text-center">Minggu 3</th>
@@ -146,15 +145,13 @@
                                     $periode = $json[$i]['periode'];
                                     $tahun[$i] = $json[$i]['tahun'];
                                     $peramalan_per_minggu[$i] = $json[$i]['peramalan_per_minggu'];
-                                    $pengeluaran_per_minggu[$i] = $json[$i]['pengeluaran']/4;
                                     $id_bahan_makanan[$i] = $json[$i]['id_bahan_makanan'];
 
                                     ?>
                                     <tr>
-                                        <th colspan="5" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
+                                        <th colspan="4" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
                                     </tr>
                                     <tr>
-                                        <td>PLAN</td>
                                         <td class="text-center">
                                             <?= $peramalan_per_minggu[$i] ?>
                                         </td>
@@ -166,36 +163,6 @@
                                         </td>
                                         <td class="text-center">
                                             <?= $peramalan_per_minggu[$i] ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DO</td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Selisih</td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
                                         </td>
                                     </tr>
                                     <?php
@@ -260,6 +227,13 @@ $(document).ready(function(){
                         borderColor: window.chartColors.blue,
                         fill: false,
                         data: hasil_peramalan
+                    },
+                    {
+                        label: 'Peramalan Per Minggu',
+                        backgroundColor: window.chartColors.yellow,
+                        borderColor: window.chartColors.yellow,
+                        fill: false,
+                        data: peramalan_per_minggu
                     },
                 ],
             };
