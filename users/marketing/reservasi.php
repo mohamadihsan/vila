@@ -11,10 +11,10 @@
         </div>
 
         <div class="page-content">
-            
+
             <div class="page-header">
                 <h1>
-                    Reservasi 
+                    Reservasi
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         Pengolahan Data
@@ -27,11 +27,11 @@
                     <!-- PAGE CONTENT BEGINS -->
 
                     <button data-toggle="collapse" data-target=".tampil" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Form</button>
-                    
+
                     <div id="" class="collapse tampil">
                         <div class="well">
                             <form action="../action/reservasi.php" method="post" class="myform">
-                                
+
                                 <!-- hidden status hapus false -->
                                 <input type="hidden" name="hapus" value="0" class="form-control" placeholder="" readonly>
 
@@ -65,13 +65,17 @@
                                     </tr>
                                     <tr>
                                         <td width="15%">Jumlah (orang)</td>
-                                        <td><input type="number" name="jumlah_orang" value="" class="form-control" placeholder=""></td>
+                                        <td><input type="number" name="jumlah_orang" value="" class="form-control" min="1" placeholder=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Tanggal reservasi</td>
+                                        <td><input type="date" name="tanggal_reservasi" value="<?= date('Y-m-d') ?>" class="form-control" placeholder=""></td>
                                     </tr>
                                     <tr>
                                         <td width="15%">Status Reservasi</td>
                                         <td>
                                             <select name="status_reservasi" class="form-control">
-                                                <option value="null">Kosongan</option>
+                                                <option value="null">Kosongkan</option>
                                                 <option value="1">Valid</option>
                                                 <option value="0">Tidak Valid</option>
                                             </select>
@@ -86,10 +90,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </form>    
+                            </form>
                         </div>
                     </div>
-                    
+
                     <!-- loading -->
                     <center><div id="loading"></div></center>
                     <div id="result"></div>
@@ -98,7 +102,7 @@
                         <div class="well">
                         Detail
                         <button data-toggle="collapse" data-target=".tampil_detail" class="btn btn-sm"><i class="ace-icon fa fa-close bigger-110"></i> Tutup</button>
-                    
+
                         </div>
                     </div>
 
@@ -132,12 +136,30 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
-            
+
+<!-- Modal Hapus -->
+<div class="modal fade" id="hapus" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-trash"></i> Hapus Data</h4>
+            </div>
+            <form method="post" action="../action/reservasi.php" class="myform">
+                <div class="modal-body">
+                    <input type="hidden" name="hapus" value="1" readonly>
+                    <input type="hidden" name="id_reservasi" readonly>
+                    <p>Apakah anda akan menghapus data ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
-    function detail(id_reservasi){
-
-    }
-
     function ubah(id_reservasi, id_tamu, jumlah_orang, status_reservasi){
         $('.well input[name=id_reservasi]').val(id_reservasi);
         $('.well select[name=id_tamu]').val(id_tamu);
@@ -148,8 +170,8 @@
     function hapus(id_reservasi){
         $('.modal-body input[name=id_reservasi]').val(id_reservasi);
     }
-    
-    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA 
+
+    // LOADING SCREEN WHILE PROCESS SAVING/UPDATE/DELETE DATA
     $(document).ready(function(){
 
         $('#mytable').DataTable({
@@ -176,9 +198,33 @@
         });
 
     });
+
+    $(".myform").submit(function(e)
+    {
+
+    var formObj = $(this);
+    var formURL = formObj.attr("action");
+    var formData = new FormData(this);
+    $.ajax({
+        url: formURL,
+        type: 'POST',
+        data:  formData,
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function (){
+                   $("#loading").show(1000).html("<img src='../assets/images/loading.gif' height='100'>");
+                   },
+        success: function(data, textStatus, jqXHR){
+                $("#result").html(data);
+                $("#loading").hide();
+                $("#hapus").modal('hide');
+                $('#mytable').DataTable().ajax.reload();
+        },
+            error: function(jqXHR, textStatus, errorThrown){
+        }
+    });
+        e.preventDefault(); //Prevent Default action.
+        e.unbind();
+    });
 </script>
-
-
-
-
-

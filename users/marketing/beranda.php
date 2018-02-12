@@ -13,7 +13,45 @@
         <div class="page-content">
 
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 infobox-container">
+                    <?php
+                    // retrieve data dari API
+                    $file = file_get_contents($url_api."tampilkan_data_marketing.php");
+                    $json = json_decode($file, true);
+                    $i=0;
+                    while ($i < count($json['data'])) {
+                        $tamu[$i] = $json['data'][$i]['tamu'];
+                        $reservasi[$i] = $json['data'][$i]['reservasi'];
+                        $i++;
+                    }
+                    ?>
+                    <caption><h5><b>Data Marketing </b></h5></caption>
+					<div class="infobox infobox-green">
+						<div class="infobox-icon">
+							<i class="ace-icon fa fa-list"></i>
+						</div>
+
+						<div class="infobox-data">
+							<span class="infobox-data-number"><?= $tamu[0] ?></span>
+							<div class="infobox-content">Total Tamu</div>
+						</div>
+					</div>
+
+					<div class="infobox infobox-blue">
+						<div class="infobox-icon">
+							<i class="ace-icon fa fa-cubes"></i>
+						</div>
+
+						<div class="infobox-data">
+							<span class="infobox-data-number"><?= $reservasi[0] ?></span>
+							<div class="infobox-content">Total Reservasi</div>
+						</div>
+
+					</div>
+
+				</div>
+
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <h5><b>Filter :</b></h5>
                     <form action="" method="get">

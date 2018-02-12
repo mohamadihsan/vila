@@ -30,7 +30,7 @@
                     if (isset($_GET['form'])) {
                         if (empty($_GET['peramalan'])) {
                             ?>
-                            <a href="index.php?menu=pemesanan" class="btn btn-sm"><i class="ace-icon fa fa-arrow-left bigger-110"></i> Kembali</a>
+                            <a href="index.php?menu=pemesanan-bahan" class="btn btn-sm"><i class="ace-icon fa fa-arrow-left bigger-110"></i> Kembali</a>
                             <?php
                         }
 
@@ -41,7 +41,7 @@
                                 <a href="#" data-toggle="collapse" data-target=".byperamalan"><i class="ace-icon fa fa-plus bigger-110"></i> <b>Pesan bahan makanan berdasarkan peramalan</b></a>
 
                                 <div id="" class="collapse byperamalan">
-                                    <form action="index.php?menu=pemesanan&form=true&peramalan=true" method="post">
+                                    <form action="index.php?menu=pemesanan-bahan&form=true&peramalan=true" method="post">
 
                                         <!-- hidden status hapus false -->
                                         <input type="hidden" name="peramalan" value="true" class="form-control" placeholder="" readonly>
@@ -153,7 +153,7 @@
                                 if ($json['jumlahRecord'] == 1 AND $json['data'][0]['id_bahan_makanan'] == '') {
                                     ?>
                                     <h5 class="text-danger">Tidak dapat melakukan pemesanan, karena tidak ada data peramalan pada periode ini!</h5>
-                                    <a href="index.php?menu=pemesanan" class="btn btn-sm"><i class="ace-icon fa fa-arrow-left bigger-110"></i> Kembali</a>
+                                    <a href="index.php?menu=pemesanan-bahan" class="btn btn-sm"><i class="ace-icon fa fa-arrow-left bigger-110"></i> Kembali</a>
                                     <?php
                                 }else{
                                     ?>
@@ -227,7 +227,7 @@
                     }else{
                         if(empty($_GET['faktur'])){
                             ?>
-                            <a href="index.php?menu=pemesanan&form=true" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Pemesanan</a>
+                            <a href="index.php?menu=pemesanan-bahan&form=true" class="btn btn-sm"><i class="ace-icon fa fa-plus bigger-110"></i> Pemesanan</a>
                             <?php
                         }
 
