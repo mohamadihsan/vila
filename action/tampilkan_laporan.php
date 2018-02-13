@@ -65,38 +65,48 @@ if ($nama_laporan == 'pemakaian-bahan') {
     }
 
     $sql = "SELECT
-            	pbm.nomor_faktur,
-            	dpbm.id_bahan_makanan,
-            	bm.nama_bahan_makanan,
-            	dpbm.jumlah_pembelian,
-            	dpbm.harga_bahan_makanan,
-            	bm.satuan,
-            	pbm.id_supplier,
-            	pbm.status_pembelian,
-            	DATE_FORMAT(
-            		pbm.tanggal_pembelian,
-            		'%m-%Y'
-            	) AS periode
-            FROM
-            	pembelian_bahan_makanan pbm
-            LEFT JOIN detail_pembelian_bahan_makanan dpbm ON dpbm.nomor_faktur = pbm.nomor_faktur
-            LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan = dpbm.id_bahan_makanan
-            $where";
+              pbm.id_bahan_makanan,
+              bm.nama_bahan_makanan,
+              bm.satuan,
+              pbm.harga_satuan,
+              SUM(pbm.barang_masuk) AS m,
+              SUM(pbm.barang_keluar) AS k,
+              SUM(pbm.sisa) AS s
+          FROM
+              persediaan_bahan_makanan pbm
+          LEFT JOIN bahan_makanan bm ON pbm.id_bahan_makanan = bm.id_bahan_makanan
+          $where
+          GROUP BY
+              1,
+              2,
+              3,
+              4,
+              WEEKDAY(pbm.tanggal)
+          ORDER BY
+              1";
 
     $result = mysqli_query($conn, $sql);
     $data = array();
     $no = 1;
+
+    $i=0;
+    $hari = 0;
+    $total_pemakaian = 0;
+    $total_pembelian = 0;
     while ($row = mysqli_fetch_assoc($result)) {
         $sub_array['no']                    = $no++;
-        $sub_array['nomor_faktur']      = $row['nomor_faktur'];
         $sub_array['id_bahan_makanan']      = $row['id_bahan_makanan'];
         $sub_array['nama_bahan_makanan']    = ucwords($row['nama_bahan_makanan']);
         $sub_array['satuan']                = $row['satuan'];
-        $sub_array['jumlah_pembelian']         = $row['jumlah_pembelian'];
-        $sub_array['harga_bahan_makanan']          = Rupiah($row['harga_bahan_makanan']);
-        $sub_array['id_supplier']      = $row['id_supplier'];
-        $sub_array['status_pembelian']      = $row['status_pembelian'];
+        $sub_array['harga_satuan']         = $row['harga_satuan'];
+        $sub_array['m']          = $row['m'];
+        $sub_array['k']      = $row['k'];
+        $sub_array['s']      = $row['s'];
         $sub_array['periode']               = $row['periode'];
+
+        $sisa_akhir = $m - $k;
+        $total_pemakaian = $total_pemakaian + $k;
+        $total_pembelian = $total_pembelian + $m;
 
         $data[] = $sub_array;
     }

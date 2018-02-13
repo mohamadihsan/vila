@@ -13,7 +13,7 @@
         <div class="page-content">
 
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <h5><b>Filter :</b></h5>
                     <form action="" method="get">
@@ -65,6 +65,44 @@
                     </div>
 
                 </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 infobox-container">
+                    <?php
+                    // retrieve data dari API
+                    $file = file_get_contents($url_api."tampilkan_data_purchasing.php");
+                    $json = json_decode($file, true);
+                    $i=0;
+                    while ($i < count($json['data'])) {
+                        $supplier[$i] = $json['data'][$i]['supplier'];
+                        $pembelian_bahan_makanan[$i] = $json['data'][$i]['pembelian_bahan_makanan'];
+                        $i++;
+                    }
+                    ?>
+                    <caption><h5><b>Data Purchasing </b></h5></caption>
+					<div class="infobox infobox-green">
+						<div class="infobox-icon">
+							<i class="ace-icon fa fa-list"></i>
+						</div>
+
+						<div class="infobox-data">
+							<span class="infobox-data-number"><?= $supplier[0] ?></span>
+							<div class="infobox-content">Total Supplier</div>
+						</div>
+					</div>
+
+					<div class="infobox infobox-blue">
+						<div class="infobox-icon">
+							<i class="ace-icon fa fa-cubes"></i>
+						</div>
+
+						<div class="infobox-data">
+							<span class="infobox-data-number"><?= $pembelian_bahan_makanan[0] ?></span>
+							<div class="infobox-content">Total Pembelian Bahan Baku</div>
+						</div>
+
+					</div>
+
+				</div>
 
             </div><!-- /.row -->
         </div><!-- /.page-content -->

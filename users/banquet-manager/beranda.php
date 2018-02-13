@@ -117,6 +117,23 @@
 
                     <caption><h5><b>Peramalan Per Minggu </b></h5></caption>
                     <div style="width:100%;">
+                        <form class="" action="" method="GET">
+                            <select class="form-control select2" name="bulan">
+                                <option value="Januari" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Januari') echo "selected"; }?> >Januari</option>
+                                <option value="Februari" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Februari') echo "selected"; }?> >Februari</option>
+                                <option value="Maret" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Maret') echo "selected"; }?> >Maret</option>
+                                <option value="April" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'April') echo "selected"; }?> >April</option>
+                                <option value="Mei" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Mei') echo "selected"; }?> >Mei</option>
+                                <option value="Juni" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Juni') echo "selected"; }?> >Juni</option>
+                                <option value="Juli" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Juli') echo "selected"; }?> >Juli</option>
+                                <option value="Agustus" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Agustus') echo "selected"; }?> >Agustus</option>
+                                <option value="September" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'September') echo "selected"; }?> >September</option>
+                                <option value="Oktober" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Oktober') echo "selected"; }?> >Oktober</option>
+                                <option value="November" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'November') echo "selected"; }?> >November</option>
+                                <option value="Desember" <?php if(isset($_GET['bulan'])){ if($_GET['bulan'] == 'Desember') echo "selected"; }?> >Desember</option>
+                            </select>
+                            <button type="submit" name="" class="btn btn-xs">Filter</button>
+                        </form>
                         <table class="table table-responsive table-bordered">
                             <thead>
                                 <tr>
@@ -149,56 +166,114 @@
                                     $pengeluaran_per_minggu[$i] = $json[$i]['pengeluaran']/4;
                                     $id_bahan_makanan[$i] = $json[$i]['id_bahan_makanan'];
 
-                                    ?>
-                                    <tr>
-                                        <th colspan="5" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
-                                    </tr>
-                                    <tr>
-                                        <td>PLAN</td>
-                                        <td class="text-center">
-                                            <?= $peramalan_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $peramalan_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $peramalan_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $peramalan_per_minggu[$i] ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DO</td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= $pengeluaran_per_minggu[$i] ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Selisih</td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                    if (isset($_GET['bulan'])) {
+                                        if ($_GET['bulan'] == $periode) {
+                                            ?>
+                                            <tr>
+                                                <th colspan="5" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
+                                            </tr>
+                                            <tr>
+                                                <td>PLAN</td>
+                                                <td class="text-center">
+                                                    <?= $peramalan_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $peramalan_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $peramalan_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $peramalan_per_minggu[$i] ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DO</td>
+                                                <td class="text-center">
+                                                    <?= $pengeluaran_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $pengeluaran_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $pengeluaran_per_minggu[$i] ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= $pengeluaran_per_minggu[$i] ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Selisih</td>
+                                                <td class="text-center">
+                                                    <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <tr>
+                                            <th colspan="5" class="text-center" style="background-color:#ddd"><?= $periode.', '.$tahun[$i] ?></th>
+                                        </tr>
+                                        <tr>
+                                            <td>PLAN</td>
+                                            <td class="text-center">
+                                                <?= $peramalan_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $peramalan_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $peramalan_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $peramalan_per_minggu[$i] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DO</td>
+                                            <td class="text-center">
+                                                <?= $pengeluaran_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $pengeluaran_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $pengeluaran_per_minggu[$i] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= $pengeluaran_per_minggu[$i] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Selisih</td>
+                                            <td class="text-center">
+                                                <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= abs($pengeluaran_per_minggu[$i] - $peramalan_per_minggu[$i]) ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
                                     $i++;
                                 }
                                 ?>

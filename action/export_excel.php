@@ -2,8 +2,10 @@
 // buka koneksi
 require_once '../config/connection.php';
 
-// Fungsi header dengan mengirimkan raw data excel
-header("Content-type: application/vnd-ms-excel");
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+
 
 function Rupiah($rupiah) {
     //format rupiah
@@ -22,223 +24,357 @@ $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
 if ($bulan == 'semua') {
     $periode1 = "01-".$tahun;
     $periode2 = "12-".$tahun;
+    $periode = $periode1.' - '.$periode2;
+
     $where = " WHERE DATE_FORMAT(pbm.tanggal, '%m-%Y') BETWEEN '$periode1' AND '$periode2' ";
 }else{
     $periode = $bulan.'-'.$tahun;
     $where = " WHERE DATE_FORMAT(pbm.tanggal, '%m-%Y') = '$periode' ";
 }
 
-if ($nama_laporan == 'pemakaian-bahan') {
 
-    header("Content-Disposition: attachment; filename=laporan pemakaian bahan makanan.xls");
+/** Include PHPExcel */
+require_once dirname(__FILE__) . '/../assets/Classes/PHPExcel.php';
 
-    $sql = "SELECT
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+// Set document properties
+$objPHPExcel->getProperties()->setCreator("Fatwa Syarifah")
+							 ->setLastModifiedBy("Fatwa Syarifah")
+							 ->setTitle("Laporan")
+							 ->setSubject("Laporan")
+							 ->setDescription("Laporan Vila Air Natural Resort.")
+							 ->setKeywords("Laporan excel")
+							 ->setCategory("Laporan");
+
+// Formatting
+$style_center = array(
+   'alignment' => array(
+       'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+       'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+   )
+);
+
+$style_data = array(
+   'borders' => array(
+       'allborders' => array(
+           'style' => PHPExcel_Style_Border::BORDER_THIN
+       )
+   )
+);
+
+$style_header = array(
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+    ),
+    'borders' => array(
+        'allborders' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THIN
+        )
+    )
+  );
+
+  if ($nama_laporan == 'pembelian-bahan') {
+
+      $sql = "SELECT
             	pbm.id_bahan_makanan,
             	bm.nama_bahan_makanan,
-            	SUM(pbm.barang_keluar) AS 'jml_pemakaian',
             	bm.satuan,
-            	DATE_FORMAT(pbm.tanggal, '%M %Y') AS 'periode'
+            	pbm.harga_satuan,
+            	SUM(pbm.barang_masuk) AS m,
+            	SUM(pbm.barang_keluar) AS k,
+            	SUM(pbm.sisa) AS s
             FROM
             	persediaan_bahan_makanan pbm
-            LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan = pbm.id_bahan_makanan
+            LEFT JOIN bahan_makanan bm ON pbm.id_bahan_makanan = bm.id_bahan_makanan
             $where
             GROUP BY
             	1,
-            	5";
+            	2,
+            	3,
+            	4,
+            	WEEKDAY(pbm.tanggal)
+            ORDER BY
+            	1";
 
-    $result = mysqli_query($conn, $sql);
-    $data = array();
-    $no = 1;
-    ?>
-    <table >
-        <tr>
-            <th width="3%" class="text-center">No</th>
-            <th width="10%" class="text-left">ID Bahan</th>
-            <th width="15%" class="text-left">Nama Bahan</th>
-            <th width="10%" class="text-center">Jumlah Pemakaian</th>
-            <th width="10%" class="text-center">Satuan</th>
-            <th width="10%" class="text-left">Periode</th>
-        </tr>
-        <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-            $nomor                    = $no++;
-            $id_bahan_makanan      = $row['id_bahan_makanan'];
-            $nama_bahan_makanan    = ucwords($row['nama_bahan_makanan']);
-            $satuan                = $row['satuan'];
-            $jml_pemakaian         = $row['jml_pemakaian'];
-            $periode               = $row['periode'];
-            ?>
-            <tr>
-                <td><?= $nomor ?></td>
-                <td><?= $id_bahan_makanan ?></td>
-                <td><?= $nama_bahan_makanan ?></td>
-                <td><?= $jml_pemakaian ?></td>
-                <td><?= $satuan ?></td>
-                <td><?= $periode ?></td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
-    <?php
-}else if ($nama_laporan == 'pembelian-bahan') {
+      $result = mysqli_query($conn, $sql);
+      $data = array();
+      $no = 1;
 
-    header("Content-Disposition: attachment; filename=laporan pembelian bahan makanan.xls");
+      $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn('A:AC')->setAutoSize(true);
+      $objPHPExcel->getActiveSheet()->getStyle("A1:AC2")->applyFromArray($style_center);
+      $objPHPExcel->getActiveSheet()->getStyle("A4:AC5")->applyFromArray($style_header);
 
-    if ($bulan == 'semua') {
-        $periode1 = "01-".$tahun;
-        $periode2 = "12-".$tahun;
-        $where = " WHERE DATE_FORMAT(pbm.tanggal_pembelian, '%m-%Y') BETWEEN '$periode1' AND '$periode2' ";
-    }else{
-        $periode = $bulan.'-'.$tahun;
-        $where = " WHERE DATE_FORMAT(pbm.tanggal_pembelian, '%m-%Y') = '$periode' ";
-    }
+      // Header
+      $objPHPExcel->setActiveSheetIndex(0)
+                  ->setCellValue('A1', 'LAPORAN PEMBELIAN DAN PENGELUARAN GUDANG KATEGORI CEPAT BUSUK (PENYIMPANAN FREEZER)')
+                  ->setCellValue('A2', 'PERIODE : '.$periode)
+                  ->setCellValue('A4', 'Nama Barang')
+                  ->setCellValue('B4', 'Qty')
+                  ->setCellValue('C4', 'Sisa')
+                  ->setCellValue('D4', 'Harga Satuan')
+                  ->setCellValue('E4', 'Senin')
+                  ->setCellValue('E5', 'M')
+                  ->setCellValue('F5', 'K')
+                  ->setCellValue('G5', 'S')
+                  ->setCellValue('H4', 'Selasa')
+                  ->setCellValue('H5', 'M')
+                  ->setCellValue('I5', 'K')
+                  ->setCellValue('J5', 'S')
+                  ->setCellValue('K4', 'Rabu')
+                  ->setCellValue('K5', 'M')
+                  ->setCellValue('L5', 'K')
+                  ->setCellValue('M5', 'S')
+                  ->setCellValue('N4', 'Kamis')
+                  ->setCellValue('N5', 'M')
+                  ->setCellValue('O5', 'K')
+                  ->setCellValue('P5', 'S')
+                  ->setCellValue('Q4', 'Jumat')
+                  ->setCellValue('Q5', 'M')
+                  ->setCellValue('R5', 'K')
+                  ->setCellValue('S5', 'S')
+                  ->setCellValue('T4', 'Sabtu')
+                  ->setCellValue('T5', 'M')
+                  ->setCellValue('U5', 'K')
+                  ->setCellValue('V5', 'S')
+                  ->setCellValue('W4', 'Minggu')
+                  ->setCellValue('W5', 'M')
+                  ->setCellValue('X5', 'K')
+                  ->setCellValue('Y5', 'S')
+                  ->setCellValue('Z4', 'Total Pemakaian')
+                  ->setCellValue('AA4', 'Total Pembelian')
+                  ->setCellValue('AB4', 'Total Harga Pemakaian')
+                  ->setCellValue('AC4', 'Total Harga Pembelian')
+                  ->mergeCells('A1:AC1')
+                  ->mergeCells('A2:AC2')
+                  ->mergeCells('A4:A5')
+                  ->mergeCells('B4:B5')
+                  ->mergeCells('C4:C5')
+                  ->mergeCells('D4:D5')
+                  ->mergeCells('E4:G4')
+                  ->mergeCells('H4:J4')
+                  ->mergeCells('K4:M4')
+                  ->mergeCells('N4:P4')
+                  ->mergeCells('Q4:S4')
+                  ->mergeCells('T4:V4')
+                  ->mergeCells('W4:Y4')
+                  ->mergeCells('Z4:Z5')
+                  ->mergeCells('AA4:AA5')
+                  ->mergeCells('AB4:AB5')
+                  ->mergeCells('AC4:AC5')
+                  ->mergeCells('AD4:AD5');
 
-    $sql = "SELECT
-            	pbm.nomor_faktur,
-            	dpbm.id_bahan_makanan,
-            	bm.nama_bahan_makanan,
-            	dpbm.jumlah_pembelian,
-            	dpbm.harga_bahan_makanan,
-            	bm.satuan,
-            	pbm.id_supplier,
-            	pbm.status_pembelian,
-            	DATE_FORMAT(
-            		pbm.tanggal_pembelian,
-            		'%m-%Y'
-            	) AS periode
-            FROM
-            	pembelian_bahan_makanan pbm
-            LEFT JOIN detail_pembelian_bahan_makanan dpbm ON dpbm.nomor_faktur = pbm.nomor_faktur
-            LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan = dpbm.id_bahan_makanan
-            $where";
+            $cell = 6;
+            $i=0;
+            $hari = 0;
+            $total_pemakaian = 0;
+            $total_pembelian = 0;
+          while ($row = mysqli_fetch_assoc($result)) {
 
-    $result = mysqli_query($conn, $sql);
-    $data = array();
-    $no = 1;
-    ?>
+              if ($hari == 7) {
+                  $hari = 0;
+                  $total_pemakaian = 0;
+                  $total_pembelian = 0;
 
-    <table >
-        <tr>
-            <th width="3%" class="text-center">No</th>
-            <th width="10%" class="text-left">Nomor Faktur</th>
-            <th width="10%" class="text-left">ID Bahan</th>
-            <th width="15%" class="text-left">Nama Bahan</th>
-            <th width="10%" class="text-right">Harga</th>
-            <th width="10%" class="text-center">Pembelian</th>
-            <th width="10%" class="text-center">Satuan</th>
-            <th width="10%" class="text-center">Supplier</th>
-            <th width="10%" class="text-center">Status</th>
-            <th width="10%" class="text-left">Periode</th>
-        </tr>
-        <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-            $nomor                     = $no++;
-            $nomor_faktur           = $row['nomor_faktur'];
-            $id_bahan_makanan       = $row['id_bahan_makanan'];
-            $nama_bahan_makanan     = ucwords($row['nama_bahan_makanan']);
-            $satuan                 = $row['satuan'];
-            $jumlah_pembelian       = $row['jumlah_pembelian'];
-            $harga_bahan_makanan    = Rupiah($row['harga_bahan_makanan']);
-            $id_supplier            = $row['id_supplier'];
-            $status_pembelian       = $row['status_pembelian'];
-            $periode                = $row['periode'];
-            ?>
-            <tr>
-                <td><?= $nomor ?></td>
-                <td><?= $nomor_faktur ?></td>
-                <td><?= $id_bahan_makanan ?></td>
-                <td><?= $nama_bahan_makanan ?></td>
-                <td><?= $harga_bahan_makanan ?></td>
-                <td><?= $jumlah_pembelian ?></td>
-                <td><?= $satuan ?></td>
-                <td><?= $id_supplier ?></td>
-                <td><?= $status_pembelian ?></td>
-                <td><?= $periode ?></td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
-    <?php
-}else if ($nama_laporan == 'persediaan-bahan') {
+              }
 
-    header("Content-Disposition: attachment; filename=laporan persediaan bahan makanan.xls");
-
-    $sql = "SELECT
-            	x.id_bahan_makanan,
-            	x.barang_masuk,
-            	x.barang_keluar,
-            	(
-            		x.barang_masuk - x.barang_keluar
-            	) AS sisa,
-            	x.harga_satuan,
-            	x.tanggal,
-            	x.nama_bahan_makanan,
-            	x.satuan
-            FROM
-            	(
-            		SELECT
-            			pbm.id_bahan_makanan,
-            			SUM(pbm.barang_masuk) AS barang_masuk,
-            			SUM(pbm.barang_keluar) AS barang_keluar,
-            			pbm.harga_satuan,
-            			DATE_FORMAT(pbm.tanggal, '%m-%Y') AS tanggal,
-            			bm.nama_bahan_makanan,
-            			bm.satuan
-            		FROM
-            			persediaan_bahan_makanan pbm
-            		LEFT JOIN bahan_makanan bm ON bm.id_bahan_makanan = pbm.id_bahan_makanan
-            		$where
-            		GROUP BY
-            			1,
-            			4,
-            			5
-            		ORDER BY
-            			pbm.id_bahan_makanan ASC,
-            			tanggal DESC
-            	) AS x";
-
-    $result = mysqli_query($conn, $sql);
-    $data = array();
-    $no = 1;
-    ?>
-
-    <table >
-        <tr>
-            <th width="3%" class="text-center">No</th>
-            <th width="10%" class="text-left">ID Bahan</th>
-            <th width="15%" class="text-left">Nama Bahan</th>
-            <th width="10%" class="text-center">Barang Masuk</th>
-            <th width="10%" class="text-center">Barang Keluar</th>
-            <th width="10%" class="text-center">Satuan</th>
-            <th width="10%" class="text-left">Periode</th>
-        </tr>
-        <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-            $nomor                    = $no++;
-            $id_bahan_makanan      = $row['id_bahan_makanan'];
-            $nama_bahan_makanan    = ucwords($row['nama_bahan_makanan']);
-            $satuan                = $row['satuan'];
-            $barang_keluar         = $row['barang_keluar'];
-            $barang_masuk          = $row['barang_masuk'];
-            $periode               = $row['tanggal'];
-            ?>
-            <tr>
-                <td><?= $nomor ?></td>
-                <td><?= $id_bahan_makanan ?></td>
-                <td><?= $nama_bahan_makanan ?></td>
-                <td><?= $barang_masuk ?></td>
-                <td><?= $barang_keluar ?></td>
-                <td><?= $satuan ?></td>
-                <td><?= $periode ?></td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
-    <?php
-}
+              $nomor                    = $no++;
+              $id_bahan_makanan[$i]      = $row['id_bahan_makanan'];
+              $nama_bahan_makanan    = ucwords($row['nama_bahan_makanan']);
+              $satuan                = $row['satuan'];
+              $harga_satuan         = $row['harga_satuan'];
+              $m               = $row['m'];
+              $k               = $row['k'];
+              $s               = $row['s'];
+              $sisa_akhir = $m - $k;
+              $total_pemakaian = $total_pemakaian + $k;
+              $total_pembelian = $total_pembelian + $m;
 
 
+
+              $objPHPExcel->getActiveSheet()->getStyle('A'.$cell.':AC'.$cell)->applyFromArray($style_header);
+
+            if ($hari == 0) {
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.$cell, $nama_bahan_makanan);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('B'.$cell, $satuan);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$cell)->getAlignment()->setWrapText(true);
+
+
+                $objPHPExcel->getActiveSheet()->setCellValue('D'.$cell, $harga_satuan);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('D'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('E'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('E'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('G'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 1) {
+
+                $objPHPExcel->getActiveSheet()->setCellValue('H'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('H'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('I'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('I'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('J'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('J'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 2) {
+
+                $objPHPExcel->getActiveSheet()->setCellValue('K'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('K'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('L'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('L'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('M'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('M'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 3) {
+
+                $objPHPExcel->getActiveSheet()->setCellValue('N'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('O'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('O'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('P'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 4) {
+
+                $objPHPExcel->getActiveSheet()->setCellValue('Q'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('Q'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('R'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('R'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('S'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('S'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 5) {
+
+                $objPHPExcel->getActiveSheet()->setCellValue('T'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('T'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('U'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('U'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('V'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('V'.$cell)->getAlignment()->setWrapText(true);
+
+            }
+
+            if ($hari == 6) {
+
+                $total_harga_pemakaian = $total_pemakaian * $harga_satuan;
+                $total_harga_pembelian = $total_pembelian * $harga_satuan;
+
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$cell, $sisa_akhir);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('C'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('W'.$cell, $m);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('W'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('X'.$cell, $k);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('X'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('Y'.$cell, $s);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('Y'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('Z'.$cell, $total_pemakaian);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('Z'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('AA'.$cell, $total_pembelian);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('AA'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('AB'.$cell, $total_harga_pemakaian);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('AB'.$cell)->getAlignment()->setWrapText(true);
+
+                $objPHPExcel->getActiveSheet()->setCellValue('AC'.$cell, $total_harga_pembelian);
+                $objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+                $objPHPExcel->getActiveSheet()->getStyle('AC'.$cell)->getAlignment()->setWrapText(true);
+            }
+
+            $hari++;
+
+            if ($hari == 7) {
+                $cell++;
+            }
+          }
+  }
+
+
+
+
+// Rename worksheet
+$objPHPExcel->getActiveSheet()->setTitle('Simple');
+
+
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+$objPHPExcel->setActiveSheetIndex(0);
+
+
+// Redirect output to a client’s web browser (Excel2007)
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="Laporan.xlsx"');
+header('Cache-Control: max-age=0');
+// If you're serving to IE 9, then the following may be needed
+header('Cache-Control: max-age=1');
+
+// If you're serving to IE over SSL, then the following may be needed
+header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+header ('Pragma: public'); // HTTP/1.0
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+$objWriter->save('php://output');
+exit;
 ?>
